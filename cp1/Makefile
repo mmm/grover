@@ -4,7 +4,6 @@ include ../Makedefs
 
 OBJS = rk4.o myvalarraydouble.o \
        main.o derivs.o init.o cf.o
-#OBJS = $(COMMON)/rk4.o $(COMMON)/myvalarraydouble.o \
 
 
 # targets
@@ -25,14 +24,3 @@ depend:
 #	makedepend -m -Y. -f.depend -- $(CFLAGS) -- *.C	
 
 # DO NOT DELETE
-
-cf.o: ../common/myvalarraydouble.h cf.h
-derivs.o: ../common/myvalarraydouble.h derivs.h
-init.o: ../common/myvalarraydouble.h derivs.h
-stepper.o: ../common/myvalarraydouble.h ../common/rk4.h derivs.h init.h cf.h
-cf.o: ../common/myvalarraydouble.h
-derivs.o: ../common/myvalarraydouble.h
-init.o: ../common/myvalarraydouble.h
-../common/myvalarraydouble.o: ../common/myvalarraydouble.h
-../common/rk4.o: derivs.h ../common/myvalarraydouble.h ../common/rk4.h
-../common/rk4.o: ../common/myvalarraydouble.h
