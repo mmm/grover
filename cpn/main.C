@@ -20,8 +20,8 @@ int main() {
     init( &x, &y );
 
     // some setup
-    const int numSteps = 100000; 
-    //double stepSize = 1/(double)numSteps;
+    const int numSteps = 10000; 
+    //double stepSize = .5 * 1/(double)numSteps;
     double stepSize = 0.000001;
 
     for ( int i = 0; i < numSteps; i++ ){
