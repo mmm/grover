@@ -2,7 +2,8 @@
 #include <unistd.h> // getopt
 #include <cmath> // pow
 
-#include "State.h"
+#include "PureState.h"
+#include "MixedState.h"
 #include "display.h"
 
 
