@@ -24,13 +24,3 @@ depend:
 #	makedepend -m -Y. -f.depend -- $(CFLAGS) -- *.C	
 
 # DO NOT DELETE
-
-cf.o: ../common/myvalarray.h cf.h
-derivs.o: ../common/myvalarray.h derivs.h
-init.o: ../common/myvalarray.h derivs.h
-main.o: ../common/myvalarray.h ../common/rk4.h derivs.h init.h cf.h
-cf.o: ../common/myvalarray.h
-derivs.o: ../common/myvalarray.h
-init.o: ../common/myvalarray.h
-myvalarray.o: ../common/myvalarray.h
-rk4.o: derivs.h ../common/myvalarray.h ../common/rk4.h
