@@ -78,6 +78,32 @@ valarray_double& valarray_double::operator+=(const double& d) {
     return *this;
 }
 
+valarray_double& valarray_double::operator-=(const valarray_double& v) { 
+
+    if ( v.size() != _data->size() ) throw;
+
+    vector<double>::iterator dest = _data->begin();
+    vector<double>::const_iterator src = v._data->begin();
+    while( dest != _data->end() && src != v._data->end() ) {
+        *dest -= *src ;
+        ++dest;
+        ++src;
+    }
+
+    return *this;
+}
+
+valarray_double& valarray_double::operator-=(const double& d) { 
+
+    typename vector<double>::iterator i = _data->begin();
+    while( i != _data->end() ) {
+        *i -= d;
+        ++i;
+    }
+
+    return *this;
+}
+
 valarray_double& valarray_double::operator*=(const double& d) { 
 
     typename vector<double>::iterator i = _data->begin();

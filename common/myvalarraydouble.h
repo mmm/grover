@@ -20,6 +20,8 @@ class valarray_double {
 
     valarray_double& operator+=(const valarray_double& v);
     valarray_double& operator+=(const double& d);
+    valarray_double& operator-=(const valarray_double& v);
+    valarray_double& operator-=(const double& d);
     //valarray_double& operator+=(const double d);
 
     valarray_double& operator*=(const double& d);
