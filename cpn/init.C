@@ -17,7 +17,7 @@ void init( double *const x, valarray<double> *const y ) {
     valarray<double>& ry = *y;
     try {
         // slices would be easier, but oh well...
-        valarray<double> z(0.0, n);
+        valarray<double> z(1.0/(double)n, n);
         valarray<double> p(1.0, n);
         valarray<double> zbar(0.0, n);
         valarray<double> pbar(1.0, n);
