@@ -1,0 +1,26 @@
+all: stepper
+
+include ../Makedefs
+
+OBJS = rk4.o myvalarraydouble.o \
+       main.o derivs.o init.o cf.o
+
+
+# targets
+stepper: $(OBJS)
+	@echo "--- stepper ---"
+	g++ $(CFLAGS) $(LFLAGS) -o stepper $(OBJS) $(LIBS)
+
+clean:
+	@echo "cleaning up.."
+	rm -f stepper
+
+clobber: clean
+	rm -f *.o *~ $(COMMON)/*.o $(COMMON)/*~
+
+depend:
+	@echo "Updating dependancies..."
+	makedepend -m -Y. -- $(CFLAGS) -- *.C *.h $(COMMON)/*.C $(COMMON)/*.h
+#	makedepend -m -Y. -f.depend -- $(CFLAGS) -- *.C	
+
+# DO NOT DELETE
