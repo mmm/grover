@@ -1,10 +1,7 @@
 // Bures.C
 //
-#include <iostream>
 #include <tnt/fmat.h>
 
-//#include <tnt/lapack.h>
-//#include "mylapack.h"
 #include "fwrap.h"
 
 #include "Bures.h"
@@ -97,7 +94,10 @@ extern double distBures( const Matrix<complex<double> >& mat1,
 
     Matrix<complex<double> > tmp1 = sqrt( mat1 );
     Matrix<complex<double> > tmp2 = sqrt( tmp1 * mat2 * tmp1 );
-    return sqrt( 2 * ( 1 - trace(tmp2) ) );
-    //return trace(sqrt(mat2));
+    double tmp = 1.0-trace(tmp2);
+    tmp = (tmp>0.0)?tmp:-tmp;
+    if( tmp < 10e-16 ) 
+        return 0.0;
+    else return sqrt( 2.0 * ( 1.0 - trace(tmp2) ) );
 
 }
