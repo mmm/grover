@@ -1,6 +1,7 @@
 #define _POSIX_SOURCE 1
 // myvalarraydouble.C
 
+#include <cmath>
 #include "myvalarraydouble.h"
 
 ///////////////
@@ -69,7 +70,7 @@ valarray_double& valarray_double::operator+=(const valarray_double& v) {
 
 valarray_double& valarray_double::operator+=(const double& d) { 
 
-    typename vector<double>::iterator i = _data->begin();
+    vector<double>::iterator i = _data->begin();
     while( i != _data->end() ) {
         *i += d;
         ++i;
@@ -95,7 +96,7 @@ valarray_double& valarray_double::operator-=(const valarray_double& v) {
 
 valarray_double& valarray_double::operator-=(const double& d) { 
 
-    typename vector<double>::iterator i = _data->begin();
+    vector<double>::iterator i = _data->begin();
     while( i != _data->end() ) {
         *i -= d;
         ++i;
@@ -106,7 +107,7 @@ valarray_double& valarray_double::operator-=(const double& d) {
 
 valarray_double& valarray_double::operator*=(const double& d) { 
 
-    typename vector<double>::iterator i = _data->begin();
+    vector<double>::iterator i = _data->begin();
     while( i != _data->end() ) {
         *i *= d;
         ++i;
@@ -120,7 +121,7 @@ valarray_double& valarray_double::operator/=(const double& d) {
     //if ( abs(d) < numerical_limits<double>::epsilon ) throw;
     if ( fabs(d) <=  0.0 ) throw;
 
-    typename vector<double>::iterator i = _data->begin();
+    vector<double>::iterator i = _data->begin();
     while( i != _data->end() ) {
         *i /= d;
         ++i;
