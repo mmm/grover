@@ -2,8 +2,10 @@
 #include <stdexcept>
 
 #include "rk4.h"
-#include "MixedState.h"
 #include "Matrices.h"
+#include "exceptions.h"
+
+#include "MixedState.h"
    
 MixedState::~MixedState() {
     for ( int i = 0; i< _dimension; i++ ) {
@@ -31,10 +33,11 @@ void MixedState::init( void ) {
         //_pureStates[0]->init(z,w,zbar,wbar);
 
         valarray<double> base(0.0, _dimension - 1);
-        w = valarray<double>(10.0, _dimension-1);
+        //w = valarray<double>(10.0, _dimension-1);
+        w = valarray<double>(0.0, _dimension-1);
         for ( int i = 1; i< _dimension; i++ ) {
             base = 0.0;
-            //base[i-1] = 1.0;
+            //base[i-1] = 1e4;
             base[i-1] = 1e8;
             _pureStates[i]->init(base,w,zbar,wbar);
         }
@@ -42,7 +45,7 @@ void MixedState::init( void ) {
     }
     catch(...) {
         cerr << "oops in Mixed::init" << endl;
-        throw;
+        throw("MS:init???");
     }
 }
 
@@ -76,16 +79,21 @@ Matrix<complex<double> > MixedState::matrix( void ) const {
                     static_cast<valarray<complex<double> > >(states) * 
                     static_cast<valarray<complex<double> > >(states.apply(conj))
                   ));
-        if ( norm < 1.0e-7 ) throw;
+        if ( norm < ZERO ) throw Fpe("Norm too small in MixedState::matrix");
         states /= norm;
     
         Matrix<complex<double> > tmpMat(_dimension,_dimension,0.0);
         for (int i=0; i<_dimension; i++ ) {
             for (int j=0; j<_dimension; j++ ) {
-                tmpMat(i+1,j+1) = _lambda[k]*states[i]*conj(states[j]);
+                //tmpMat(i+1,j+1) = _lambda[k]*states[i]*conj(states[j]);
+                complex<double> tmp = _lambda[k]*states[i]*conj(states[j]);
+                tmpMat(i+1,j+1) = complex<double>( 
+                    ( std::abs(tmp.real()) > ZERO ? tmp.real(): 0.0 ),
+                    ( std::abs(tmp.imag()) > ZERO ? tmp.imag(): 0.0 ));
+                                   
             }
         }
-        
+
         rho = rho + tmpMat;// no "+=" in TNT!
 
     }
@@ -93,12 +101,14 @@ Matrix<complex<double> > MixedState::matrix( void ) const {
     //renormalize
     //rho /= trace(rho);  // not in TNT!!!
     const double tr = trace(rho);
-    if ( tr < 1.0e-7 ) throw;
+    if ( tr < ZERO ) throw Fpe("trace is too small");
     for ( int i=0; i<_dimension; i++ ) {
         for ( int j=0; j<_dimension; j++ ) {
             rho[i][j] /= tr;
         }
     }
+
+    if ( has_a_nan(rho) ) throw Fpe("From Mixed_State::matrix()");
 
     return rho;
 
@@ -128,13 +138,13 @@ void MixedState::perturb( Uniform<double>& generator, const double upperBound ) 
     double lambdaSum = 0.0;
     for ( int i=0; i<_dimension; i++ ) {
         _pureStates[i]->perturb( generator, upperBound );
-        _lambda[i] += ( generator.random() - 0.5 ) * upperBound;
+        _lambda[i] +=  generator.random() * 0.5  * upperBound;
         lambdaSum += _lambda[i];
     }
 
     // keep lambda's normalized...
-    // should they be able to be negative?
-    if ( lambdaSum < 1.0e-7 ) throw;
+    // should they be able to be negative? No!
+    if ( lambdaSum < ZERO ) throw Fpe("lambda too small in MS::perturb");
     _lambda /= lambdaSum;
 
 }

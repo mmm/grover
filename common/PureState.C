@@ -1,6 +1,8 @@
 // State.C
 #include <stdexcept>
 #include "rk4.h"
+#include "Matrices.h"
+#include "exceptions.h"
 
 #include "PureState.h"
    
@@ -30,10 +32,10 @@ void PureState::init(void) {
 
 }
    
-void PureState::init( const valarray<double> z_i,
-                      const valarray<double> w_i,
-                      const valarray<double> zbar_i,
-                      const valarray<double> wbar_i ) { 
+void PureState::init( const valarray<double>& z_i,
+                      const valarray<double>& w_i,
+                      const valarray<double>& zbar_i,
+                      const valarray<double>& wbar_i ) { 
 
 
     if ( _data.size() % 4 ) throw;
@@ -80,7 +82,7 @@ Matrix<complex<double> > PureState::matrix( void ) const {
                     static_cast<valarray<complex<double> > >(states) * 
                     static_cast<valarray<complex<double> > >(states.apply(conj))
                   ));
-        if ( norm < 1.0e-7 ) throw;
+        if ( norm < ZERO ) throw Fpe("in PS::matrix()");
         states /= norm;
     
         for (int i=0; i<_dimension; i++ ) {
@@ -131,7 +133,7 @@ void PureState::perturb( Uniform<double>& generator, const double upperBound ) {
     }
     catch(out_of_range) {
         cerr << "oops" << endl;
-        exit(1);
+        throw;
     }
 
 }

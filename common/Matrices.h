@@ -14,8 +14,12 @@ using namespace TNT;
 extern Fortran_Matrix<complex<double> > dagger( 
     const Fortran_Matrix<complex<double> >& mat );
 
-const Matrix<complex<double> > sqrt( const Matrix<complex<double> >& mat );
+extern const Matrix<complex<double> > sqrt( const Matrix<complex<double> >& mat );
 
 extern const double trace( const Matrix<complex<double> >& mat );
+
+extern const bool has_a_nan( const Matrix<complex<double> >& mat );
+
+const static double ZERO = 1.0e-18;
 
 #endif // _MATRICES_H_

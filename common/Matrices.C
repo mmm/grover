@@ -9,7 +9,7 @@
 
 const double trace( const Matrix<complex<double> >& mat ) {
 
-    if( mat.num_rows() != mat.num_cols() ) throw;
+    if( mat.num_rows() != mat.num_cols() ) throw("Matrices not square");
 
     double sum = 0.0;
     for( int i=0; i<mat.num_rows(); i++ ) {
@@ -88,7 +88,7 @@ const Matrix<complex<double> > makeMatrix( const Vector<double>& eigVals ) {
 
 const Matrix<complex<double> > sqrt( const Matrix<complex<double> >& mat ) {
 
-    if( mat.num_rows() != mat.num_cols() ) throw;
+    if( mat.num_rows() != mat.num_cols() ) throw("Matrices not square");
 
     Fortran_Matrix<complex<double> > tmpMat = toFortranMatrix( mat );
 
@@ -105,5 +105,17 @@ const Matrix<complex<double> > sqrt( const Matrix<complex<double> >& mat ) {
 
     //return toCMatrix(eigVects*out*dagger(eigVects));
     return toCMatrix( nan_to_zero(eigVects*out*dagger(eigVects)) );
+
+}
+
+const bool has_a_nan( const Matrix<complex<double> >& mat ) {
+
+    for( int i=0; i<mat.num_rows(); i++ ) {
+        for( int j=0; j<mat.num_cols(); j++ ) {
+            if ( isnan(mat[i][j].real()) || isnan(mat[i][j].imag()) ) 
+                return true;
+        }
+    }
+    return false;
 
 }

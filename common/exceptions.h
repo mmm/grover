@@ -7,13 +7,13 @@
 
 class Fpe: public exception {
   public:
-    Fpe(int index): _index(index) {};
+    Fpe(const char* message): _message(message) {};
 
     // overrides exception::what()
     const char* what(void) const;
 
   private:
-    int _index;
+    const char* _message;
 };
 
 

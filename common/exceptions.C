@@ -1,8 +1,10 @@
 // exceptions.C
+#include <iostream>
 
 #include "exceptions.h"
 
 
 const char* Fpe::what(void) const {
-    return "Oops... in fpe::what";
+    cerr << Fpe::_message << endl;
+    return "Oops... in Fpe::what";
 }
