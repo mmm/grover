@@ -86,3 +86,27 @@ extern void printDiffs( ofstream& outFile,
     outFile << endl;
 
 }
+
+extern void printLeadingEVals( ofstream& outFile, 
+                               const double time,
+                               const State *const rho1, 
+                               const State *const rho2 ) {
+
+    const Matrix<complex<double> >& mat1 = rho1->matrix();
+    const Matrix<complex<double> >& mat2 = rho2->matrix();
+    outFile << time * 100.0
+            << ' '
+            << mat1(1,1).real()
+            << ' '
+            << mat2(1,1).real();
+
+    
+//    const Vector<double> eVals1 = eigVals(mat1);
+//    outFile << max( eVals1[0], eVals1[ eVals1.size() - 1 ] ) 
+//            << ' ';
+//    const Vector<double> eVals2 = eigVals(mat2);
+//    outFile << max( eVals2[0], eVals2[ eVals2.size() - 1 ] ) 
+//            << ' ';
+    outFile << endl;
+
+}

@@ -33,8 +33,8 @@ void MixedState::init( void ) {
         //_pureStates[0]->init(z,w,zbar,wbar);
 
         valarray<double> base(0.0, _dimension - 1);
-        //w = valarray<double>(10.0, _dimension-1);
-        w = valarray<double>(0.0, _dimension-1);
+        w = valarray<double>(0.1, _dimension-1);
+        //w = valarray<double>(0.0, _dimension-1);
         for ( int i = 1; i< _dimension; i++ ) {
             base = 0.0;
             //base[i-1] = 1e4;
@@ -120,17 +120,17 @@ void MixedState::print( const double t ) const {
 
     cout << "Density matrix is : " << rho << endl;
 
-    complex<double> trace = 0.0;
-    for (int i=1; i<_dimension+1; i++) {
-        trace += rho(i,i);
-    }
-    cout << "with trace : " << abs(trace) << endl;
-
-    for (int i=0; i< _dimension; i++ ) {
-        cout << "Pure state component i = " << i << endl;
-        cout << "lambda i = " << _lambda[i] << endl;
-        _pureStates[i]->print(t);
-    }
+//    complex<double> trace = 0.0;
+//    for (int i=1; i<_dimension+1; i++) {
+//        trace += rho(i,i);
+//    }
+//    cout << "with trace : " << abs(trace) << endl;
+//
+//    for (int i=0; i< _dimension; i++ ) {
+//        cout << "Pure state component i = " << i << endl;
+//        cout << "lambda i = " << _lambda[i] << endl;
+//        _pureStates[i]->print(t);
+//    }
 }
 
 void MixedState::perturb( Uniform<double>& generator, const double upperBound ) {

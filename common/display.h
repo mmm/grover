@@ -11,5 +11,9 @@ extern void printDiffs( ofstream& outFile,
                         const double time,
                         const State *const rho1, 
                         const State *const rho2 );
+extern void printLeadingEVals( ofstream& outFile, 
+                               const double time,
+                               const State *const rho1, 
+                               const State *const rho2 );
 
 #endif // _DISPLAY_H_

@@ -23,18 +23,28 @@ int main( int argc, char* argv[] ) {
     //const int numSteps = 250; 
     //double stepSize = 0.0002;
 
-    const int numSteps = 500; 
-    double stepSize = 0.0001;
+    //const int numSteps = 500; 
+    //double stepSize = 0.0001;
 
     //const int numSteps = 1000; 
     //double stepSize = 0.00005;
+
+    
+
+    const int numSteps = 1000; 
+    double stepSize = 0.0001;
+
+
+
+
+
 
     Uniform<double> uniformGenerator;
     //uniformGenerator.seed( static_cast<unsigned int>( time(0) ) );
 
     //const double upperBound = 0.0001; // biggest noise can get(???)
-    const double upperBound = 0.001; // biggest noise can get(???)
-    //const double upperBound = 0.01; // biggest noise can get(???)
+    //const double upperBound = 0.001; // biggest noise can get(???)
+    const double upperBound = 0.01; // biggest noise can get(???)
 
     int opt,
         numQubits = 4;
@@ -97,6 +107,8 @@ int main( int argc, char* argv[] ) {
 
             if ( 0 == i%aHundredth ) {
                 //rho1->print(t);
+                //rho2->print(t);
+                //printLeadingEVals(outFileStream,t,rho1,rho2);
                 printDiffs(outFileStream,t,rho1,rho2);
             }
 #ifdef TELL_ME
