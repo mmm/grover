@@ -2,8 +2,8 @@ all: stepper
 
 include ../Makedefs
 
-OBJS = rk4.o myvalarray.o\
-       main.o derivs.o init.o cf.o
+OBJS = rk4.o display.o myvalarray.o\
+       main.o derivs.o init.o 
 
 
 # targets
@@ -13,7 +13,7 @@ stepper: $(OBJS)
 
 clean:
 	@echo "cleaning up.."
-	rm -f stepper
+	rm -f stepper core
 
 clobber: clean
 	rm -f *.o *~ $(COMMON)/*.o $(COMMON)/*~ *.out

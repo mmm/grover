@@ -2,10 +2,12 @@
 // init.C
 //
 #include <stdexcept>
+#include <cmath> // pow
 #include "myvalarray.h"
 
-#include "derivs.h"
+#include "init.h"
 
+int numQubits = 8;
 
 // initialize variables...
 void init( double *const x, valarray<double> *const y ) {
@@ -37,4 +39,10 @@ void init( double *const x, valarray<double> *const y ) {
         cerr << "oops" << endl;
         exit(1);
     }
+}
+
+extern const int getNumOfEqns( const int numBits ) {
+
+    return (const int) pow( 2, numBits + 2 );
+
 }

@@ -2,13 +2,15 @@
 // cf.C
 //
 #include <iostream>
+
 #include <math.h> // cos
-#include <time.h> 
-#include <sys/time.h>
+
+#include <sys/time.h> // all for getrusage and gettimeofday
 #include <sys/resource.h>
 #include <unistd.h>
-#include "myvalarray.h"
 
+#include "myvalarray.h"
+#include "init.h"
 #include "cf.h"
 
 void compareWithSoln( const double x, const valarray<double>& y ) {
@@ -50,14 +52,19 @@ void printVals( const double x, const valarray<double>& y ) {
 #endif //TELL_ME
 }
 
-
 void showProgress( const int step, const int numSteps ) {
 
+    static timeval startTime;
     if ( 0 == step ) {
         //first time through
-        cout << "Stepper was started at clock: " << clock()
+        gettimeofday( &startTime, NULL );
+        cout << "Stepper was started at timeofday: " 
+             << startTime.tv_sec << " seconds, "
+             << startTime.tv_usec << " microseconds."
              << endl;
-        cout << "Running... |";
+        cout << "Running " 
+             << numQubits
+             << " qubits... |";
         cout.flush();
     }
 
@@ -68,14 +75,27 @@ void showProgress( const int step, const int numSteps ) {
     }
 
     if ( step && 0 == step%(numSteps-1) ) {
+        // end of the run.
         rusage usageStuff;
         if ( getrusage(RUSAGE_SELF,&usageStuff) ) {
             cerr << "stepper: can't get rusage" << endl;
         }
-        cout << "> done at clock " << clock()
-             << " user time used: " << usageStuff.ru_utime.tv_sec
-             << " seconds and " << usageStuff.ru_utime.tv_usec
-             << " microseconds"
+        timeval endTime;
+        gettimeofday( &endTime, NULL );
+        cout << "> Done!" << endl;
+        cout << "Stepper finished at timeofday: " 
+             << endTime.tv_sec << " seconds, "
+             << endTime.tv_usec << " microseconds."
+             << endl;
+        cout << " CPU time used: " << usageStuff.ru_utime.tv_sec
+             << " seconds, " << usageStuff.ru_utime.tv_usec
+             << " microseconds."
+             << endl;
+        timeval realTime = { 0 };
+        timersub( &endTime, &startTime, &realTime );
+        cout << " Real time used: " 
+             << realTime.tv_sec << " seconds, "
+             << realTime.tv_usec << " microseconds."
              << endl;
     }
 
