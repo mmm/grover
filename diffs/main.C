@@ -28,11 +28,13 @@ int main( int argc, char* argv[] ) {
 
     //const int numSteps = 1000; 
     //double stepSize = 0.00005;
+
     Uniform<double> uniformGenerator;
     //uniformGenerator.seed( static_cast<unsigned int>( time(0) ) );
+
     //const double upperBound = 0.0001; // biggest noise can get(???)
-    //const double upperBound = 0.001; // biggest noise can get(???)
-    const double upperBound = 0.01; // biggest noise can get(???)
+    const double upperBound = 0.001; // biggest noise can get(???)
+    //const double upperBound = 0.01; // biggest noise can get(???)
 
     int opt,
         numQubits = 4;
@@ -60,7 +62,7 @@ int main( int argc, char* argv[] ) {
 
     // outputfile stuff
     char fileBase[2 + sizeof(int) + sizeof(double)] = "";
-    sprintf( fileBase, "-%d-%f", numQubits, upperBound );
+    sprintf( fileBase, "-%d-n%f-s%f", numQubits, upperBound, stepSize );
     outFile += fileBase;
     cout << "outFile = " << outFile << endl;
     ofstream outFileStream( outFile.c_str() );
