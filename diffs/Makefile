@@ -13,10 +13,10 @@ stepper: $(OBJS)
 
 clean:
 	@echo "cleaning up.."
-	rm -f stepper
+	rm -f stepper core
 
 clobber: clean
-	rm -f *.o *~ $(COMMON)/*.o $(COMMON)/*~
+	rm -f *.o *~ $(COMMON)/*.o $(COMMON)/*~ *.out
 
 depend:
 	@echo "Updating dependancies..."

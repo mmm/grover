@@ -2,12 +2,8 @@
 // want to integrate ODEs
 //
 #include "myvalarray.h"
-//#include "euler.h"
 #include "rk4.h"
-//#include "adaptRk4.h"
-//#include "lsodeStepper.h"
 
-#include "derivs.h"
 #include "init.h"
 #include "cf.h"
 
@@ -32,10 +28,6 @@ int main() {
     for ( int i = 0; i < numSteps; i++ ){
 
         // take a step
-        //stepEuler( &x, &y, stepSize );
-        //stepAdaptRk4( &x, &y, &stepSize );
-        //stepLsode( &x, &y, &stepSize );
-
         y1 += stepRk4( x, y1, stepSize );
         y2 += stepRk4( x, y2, stepSize );
         x += stepSize;
