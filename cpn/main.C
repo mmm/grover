@@ -1,7 +1,7 @@
 #define _POSIX_SOURCE 1
 // want to integrate ODEs
 //
-#include <valarray>
+#include "myvalarray.h"
 //#include "euler.h"
 #include "rk4.h"
 //#include "adaptRk4.h"

@@ -5,7 +5,7 @@
 
 const int NUM_OF_EQNS = 2;
 
-#include <valarray>
+#include "myvalarray.h"
 extern void init( double *const x, valarray<double> *const y );
 
 #endif //_INIT_H_

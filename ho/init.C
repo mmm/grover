@@ -1,7 +1,7 @@
 #define _POSIX_SOURCE 1
 // init.C
 //
-#include <valarray>
+#include "myvalarray.h"
 
 #include "derivs.h"
 

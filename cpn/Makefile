@@ -2,7 +2,7 @@ all: stepper
 
 include ../Makedefs
 
-OBJS = rk4.o \
+OBJS = rk4.o myvalarray.o\
        main.o derivs.o init.o cf.o
 
 

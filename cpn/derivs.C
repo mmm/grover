@@ -2,23 +2,9 @@
 // derivs.C
 //
 #include <stdexcept>
-#include <valarray>
+#include "myvalarray.h"
 
 #include "derivs.h"
-
-
-double std::operator*( const valarray<double>& a, const valarray<double>& b ) {
-
-    if ( a.size() != b.size() ) throw;
-
-    double sum = 0.0;
-    for ( unsigned int i = 0; i < a.size(); i++ ) {
-        sum += a[i]*b[i];
-    }
-
-    return sum;
-
-}
 
 // return dy/dx for each particular equation
 valarray<double> dydx( const double x, const valarray<double>& y ) {

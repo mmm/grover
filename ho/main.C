@@ -2,7 +2,7 @@
 // want to integrate ODEs
 //
 #include <iostream>
-#include <valarray>
+#include "myvalarray.h"
 //#include "euler.h"
 #include "rk4.h"
 //#include "adaptRk4.h"

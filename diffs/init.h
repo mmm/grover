@@ -5,7 +5,7 @@
 
 const int NUM_OF_EQNS = 4;
 
-#include <valarray>
+#include "myvalarray.h"
 extern void init( double *const x, valarray<double> *const y );
 extern void perturb( double *const x, valarray<double> *const y );
 

@@ -2,7 +2,7 @@
 // init.C
 //
 #include <stdexcept>
-#include <valarray>
+#include "myvalarray.h"
 
 #include "derivs.h"
 

@@ -3,142 +3,34 @@
 
 #include "myvalarray.h"
 
-///////////////
-// lifecycle //
-///////////////
-//template<class T> valarray<T>::valarray(const T& val, size_t n): std::vector<T> (n,val,0) { }
-template<class T> 
-valarray<T>::valarray(const T& val, size_t n) {
-
-    _data = new vector<T>(n,val,0);
-
-}
-
-template<class T> 
-valarray<T>::valarray(const valarray<T>& val) {
-
-    _data = new vector<T>( *(val._data) );
-    
-}
-
-template<class T> 
-valarray<T>& valarray<T>::operator=(const valarray<T>& val) { 
-
-    if ( this != &val ) {
-        delete[] _data;
-        _data = new vector<T>( *(val._data) );
-    }
-    return *this;
-
-}
-
-template<class T> 
-valarray<T>::~valarray() { 
-
-    delete[] _data; 
-
-}
-
-
-template<class T> 
-T& valarray<T>::operator[](const unsigned int n) { 
-
-    //return _data->at(n);
-    vector<T>& rd = *_data;
-    return rd[n];
-
-}
-
-template<class T> 
-const T& valarray<T>::operator[](const unsigned int n) const { 
-
-    //return _data->at(n);
-    vector<T>& rd = *_data;
-    return rd[n];
-
-}
-
-
-template<class T> 
-valarray<T>& valarray<T>::operator+=(const valarray<T>& v) { 
-
-    if ( v.size() != _data->size() ) throw;
-
-    typename vector<T>::iterator dest = _data->begin();
-    typename vector<T>::const_iterator src = v._data->begin();
-    while( dest != _data->end() && src != v._data->end() ) {
-        *dest += *src ;
-        ++dest;
-        ++src;
-    }
-
-    return *this;
-}
-
-template<class T> 
-valarray<T>& valarray<T>::operator+=(const T& d) { 
-
-    typename vector<T>::iterator i = _data->begin();
-    while( i != _data->end() ) {
-        *i += d;
-        ++i;
-    }
-
-    return *this;
-}
-
-template<class T> 
-valarray<T>& valarray<T>::operator*=(const T& d) { 
-
-    typename vector<T>::iterator i = _data->begin();
-    while( i != _data->end() ) {
-        *i *= d;
-        ++i;
-    }
-
-    return *this;
-}
-
-template<class T> 
-valarray<T>& valarray<T>::operator/=(const T& d) { 
-
-    //if ( abs(d) < numerical_limits<double>::epsilon ) throw;
-    if ( fabs(d) <=  0.0 ) throw;
-
-    typename vector<T>::iterator i = _data->begin();
-    while( i != _data->end() ) {
-        *i /= d;
-        ++i;
-    }
-
-    return *this;
-}
-
-
 ///////////////////
 // outside things
 ///////////////////
+double std::operator*( const valarray<double>& a, const valarray<double>& b ) {
 
-template<class T> 
-valarray<T> std::operator+( const valarray<T>& a, const valarray<T>& b ) {
-    valarray<T> r = a;
-    return r += b;
-}
+    if ( a.size() != b.size() ) throw;
 
-template<class T> 
-valarray<T> std::operator+( const T& d, const valarray<T>& v ) {
-    valarray<T> r = v;
-    return r += d;
-}
+    double sum = 0.0;
+    for ( unsigned int i = 0; i < a.size(); i++ ) {
+        sum += a[i]*b[i];
+    }
 
-template<class T> 
-valarray<T> std::operator*( const T& d, const valarray<T>& v ) {
-    valarray<T> r = v;
-    return r *= d;
-}
+    return sum;
 
-template<class T> 
-valarray<T> std::operator/( const valarray<T>& v, const T& d ) {
-    valarray<T> r = v;
-    return r /= d;
 }
+//double std::operator*( const valarray_double& a, const valarray_double& b ) {
+//
+//    if ( a.size() != b.size() ) throw;
+//
+//    vector<double>::const_iterator ci_a = a._data->begin();
+//    vector<double>::const_iterator ci_b = b._data->begin();
+//    double sum = 0.0;
+//    while( ci_a != a._data->end() && ci_b != b._data->end() ) {
+//        sum += (*ci_a) * (*ci_b) ;
+//        ++ci_a;
+//        ++ci_b;
+//    }
+//
+//    return sum;
+//
+//}

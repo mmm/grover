@@ -3,7 +3,7 @@
 //
 #include <iostream>
 #include <math.h> // cos
-#include <valarray>
+#include "myvalarray.h"
 
 #include "cf.h"
 
