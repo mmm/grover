@@ -7,11 +7,11 @@
 #include "State.h"
 
 extern void showProgress( const int step, const int numSteps, const int numQubits );
-extern void printDiffs( ofstream& outFile, 
+extern void printDiffs( std::ofstream& outFile, 
                         const double time,
                         const State *const rho1, 
                         const State *const rho2 );
-extern void printLeadingEVals( ofstream& outFile, 
+extern void printLeadingEVals( std::ofstream& outFile, 
                                const double time,
                                const State *const rho1, 
                                const State *const rho2 );

@@ -1,10 +1,13 @@
-#define _POSIX_SOURCE 1
 // derivs.C
 //
+#include <iostream>
 #include <stdexcept>
-#include "myvalarray.h"
+#include <valarray>
+#include <numeric>
 
 #include "derivs.h"
+
+using namespace std;
 
 // return dy/dx for each particular equation
 valarray<double> dydx( const double x, const valarray<double>& y ) {
@@ -37,11 +40,16 @@ valarray<double> dydx( const double x, const valarray<double>& y ) {
 
         valarray<double> wdot(0.0, n);
         // calculate dot products first...
-        double zdotzbar = z*zbar;
-        double wdotw = w*w;
-        double zdotw = z*w;
-        double zbardotw = zbar*w;
-        double zbardotzbar = zbar*zbar;
+        double zdotzbar = 
+            std::inner_product(&z[0],&z[z.size()],&zbar[0],double(0));
+        double wdotw = 
+            std::inner_product(&w[0],&w[w.size()],&w[0],double(0));
+        double zdotw = 
+            std::inner_product(&z[0],&z[z.size()],&w[0],double(0));
+        double zbardotw = 
+            std::inner_product(&zbar[0],&zbar[zbar.size()],&w[0],double(0));
+        double zbardotzbar = 
+            std::inner_product(&zbar[0],&zbar[zbar.size()],&zbar[0],double(0));
         for( int i = 0; i<n; i++ ) {
             wdot[i] = 
                 ( zbar[i] * ( 
@@ -64,10 +72,14 @@ valarray<double> dydx( const double x, const valarray<double>& y ) {
 
         valarray<double> wbardot(0.0, n);
         // calculate dot products first...
-        double wbardotwbar = wbar*wbar;
-        double zbardotwbar = zbar*wbar;
-        double zdotwbar = z*wbar;
-        double zdotz = z*z;
+        double wbardotwbar = 
+            std::inner_product(&wbar[0],&wbar[wbar.size()],&wbar[0],double(0));
+        double zbardotwbar = 
+            std::inner_product(&zbar[0],&zbar[zbar.size()],&wbar[0],double(0));
+        double zdotwbar = 
+            std::inner_product(&z[0],&z[z.size()],&wbar[0],double(0));
+        double zdotz = 
+            std::inner_product(&z[0],&z[z.size()],&z[0],double(0));
         for( int i = 0; i<n; i++ ) {
             wbardot[i] = 
                 ( z[i] * ( 

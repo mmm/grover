@@ -1,4 +1,5 @@
 //
+#include <valarray>
 #include <string>
 #include <fstream> 
 #include <unistd.h> // getopt
@@ -11,25 +12,24 @@
 
 
 void usage( void ) {
-    cout << "Usage: stepper [options]" << endl
-         << "Where options are:" << endl
-         << "-d prob-datafile " << endl
-         << "-n num-steps"  << endl
-         << "-o bures-datafile" << endl
-         << "-q num-qubits"  << endl
-         << "-s step-size"  << endl
-         << "-u noise-threshold" << endl;
+    std::cout << "Usage: stepper [options]" << std::endl
+         << "Where options are:" << std::endl
+         << "-d prob-datafile " << std::endl
+         << "-n num-steps"  << std::endl
+         << "-o bures-datafile" << std::endl
+         << "-q num-qubits"  << std::endl
+         << "-s step-size"  << std::endl
+         << "-u noise-threshold" << std::endl;
     exit(1);
 }
 
 int main( int argc, char* argv[] ) {
 
-
     int numQubits = 4;
     int numSteps = 500; 
     double stepSize = 0.0001;
-    string outFileA = "output/Bures.out";
-    string outFileB = "output/targetCoeff.out";
+    std::string outFileA = "output/Bures.out";
+    std::string outFileB = "output/targetCoeff.out";
     double upperBound = 0.005; // biggest noise can get... kinda
                                // works between 0.001 and 0.01
     int opt = 0;
@@ -68,21 +68,21 @@ int main( int argc, char* argv[] ) {
     sprintf( fileAppend, "-%d-n%f-s%f", numQubits, upperBound, stepSize );
     outFileA += fileAppend;
     outFileB += fileAppend;
-    ofstream outFileStreamA( outFileA.c_str() );
-    ofstream outFileStreamB( outFileB.c_str() );
+    std::ofstream outFileStreamA( outFileA.c_str() );
+    std::ofstream outFileStreamB( outFileB.c_str() );
     if ( !outFileStreamA || !outFileStreamB ) {
-        cerr << "Oops!" << endl;
+        std::cerr << "Oops!" << std::endl;
         exit(1);
     }
 
-    cout << "Bures distance -v- time to " 
-         <<  outFileA << endl;
-    cout << "target state prob -v- time to " 
-         <<  outFileB << endl;
-    cout << "numQubits = " << numQubits << endl;
-    cout << "numSteps = " << numSteps << endl;
-    cout << "step size = " << stepSize << endl;
-    cout << "upper bound = " << upperBound << endl;
+    std::cout << "Bures distance -v- time to " 
+         <<  outFileA << std::endl;
+    std::cout << "target state prob -v- time to " 
+         <<  outFileB << std::endl;
+    std::cout << "numQubits = " << numQubits << std::endl;
+    std::cout << "numSteps = " << numSteps << std::endl;
+    std::cout << "step size = " << stepSize << std::endl;
+    std::cout << "upper bound = " << upperBound << std::endl;
 
 
     // initial conditions
@@ -131,7 +131,7 @@ int main( int argc, char* argv[] ) {
 
     }//end of try
     catch( const exception& ex ) {
-        cerr << "exception " << ex.what() << endl;
+        std::cerr << "exception " << ex.what() << std::endl;
     }
 
     delete rho1;

@@ -3,7 +3,8 @@
 #ifndef _RK4_H_
 #define _RK4_H_
 
-#include "myvalarray.h"
+
+using namespace std;
 
 extern valarray<double> 
 stepRk4( const double x, const valarray<double>& y, const double stepSize );

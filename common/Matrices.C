@@ -28,10 +28,13 @@ nan_to_zero( const Fortran_Matrix<complex<double> >& mat ) {
     for(int i=1; i<=mat.num_rows(); i++) {
         for(int j=1; j<=mat.num_rows(); j++) {
             tmp(i,j) = complex<double>(
-                //( mat(i,j).real() < 1e-20 )? 0.0 : mat(i,j).real(),
-                //( mat(i,j).imag() < 1e-20 )? 0.0 : mat(i,j).imag()
+#ifdef __CYGWIN__
+                ( mat(i,j).real() < 1e-20 )? 0.0 : mat(i,j).real(),
+                ( mat(i,j).imag() < 1e-20 )? 0.0 : mat(i,j).imag()
+#else
                 ( isnan( mat(i,j).real() ) )? 0.0 : mat(i,j).real(),
                 ( isnan( mat(i,j).imag() ) )? 0.0 : mat(i,j).imag()
+#endif
                 );
         }
     }
@@ -136,7 +139,12 @@ const bool has_a_nan( const Matrix<complex<double> >& mat ) {
 
     for( int i=0; i<mat.num_rows(); i++ ) {
         for( int j=0; j<mat.num_cols(); j++ ) {
+#ifdef __CYGWIN__
+            if ( mat[i][j].real() < 1.0e-20 || mat[i][j].imag() < 1.0e-20 ) 
+#else
             if ( isnan(mat[i][j].real()) || isnan(mat[i][j].imag()) ) 
+#endif 
+            //if ( mat[i][j].real() < 1.0e-20 || mat[i][j].imag() < 1.0e-20 ) 
                 return true;
         }
     }

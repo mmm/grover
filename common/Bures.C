@@ -19,7 +19,11 @@ extern double distBures( const Matrix<complex<double> >& mat1,
         Matrix<complex<double> > tmp2 = sqrt( tmp1 * mat2 * tmp1 );
         double tmp = 1.0-trace(tmp2);
         ret = sqrt( 2.0 * std::abs(tmp) );
+#ifdef __CYGWIN__
+        if ( ret < 1.0e-20 ) throw Fpe("From distBures");
+#else
         if ( isnan( ret ) ) throw Fpe("From distBures");
+#endif
     }
     catch ( const exception& ex ) {
         cerr << "Oops in distBures" << endl;

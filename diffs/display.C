@@ -1,4 +1,3 @@
-#define _POSIX_SOURCE 1
 // display.C
 //
 #include <iostream>
@@ -12,6 +11,8 @@
 #include "fwrap.h"
 
 #include "display.h"
+
+using namespace std;
 
 void showProgress( const int step, const int numSteps, const int numQubits ) {
 

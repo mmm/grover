@@ -1,10 +1,14 @@
-// State.C
+/// State.C
 #include <stdexcept>
+#include <valarray>
+#include <numeric> // inner_product
 #include "rk4.h"
 #include "Matrices.h"
 #include "exceptions.h"
 
 #include "PureState.h"
+
+using namespace std;
    
 void PureState::init(void) { 
 
@@ -78,10 +82,12 @@ Matrix<complex<double> > PureState::matrix( void ) const {
         //            static_cast<valarray<complex<double> > >(states) * 
         //            static_cast<valarray<complex<double> > >(states.apply(conj))
         //          ));
-        double norm = sqrt(abs(
-                    static_cast<valarray<complex<double> > >(states) * 
-                    static_cast<valarray<complex<double> > >(states.apply(conj))
-                  ));
+        valarray<complex<double> > statesbar = states;
+        statesbar.apply(conj);
+        double norm = std::sqrt(std::abs( inner_product( &states[0], 
+                                                         &states[states.size()], 
+                                                         &statesbar[0], 
+                                                         complex<double>(0) ) ));
         if ( norm < ZERO ) throw Fpe("in PS::matrix()");
         states /= norm;
     

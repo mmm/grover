@@ -3,7 +3,6 @@
 #ifndef _PURESTATE_H_
 #define _PURESTATE_H_
 
-#include "myvalarray.h"
 #include "State.h"
 
 class PureState: public State {
