@@ -12,8 +12,8 @@ void PureState::init(void) {
 
     try {
         valarray<double> z(1.0/sqrt(_dimension), n);
-        valarray<double> w(-10.0, n);
-        //valarray<double> w(0.0, n);
+        //valarray<double> w(-10.0, n);
+        valarray<double> w(0.0, n);
         valarray<double> zbar(0.0, n);
         valarray<double> wbar(0.0, n);
         for( int i = 0; i<n; i++ ) {

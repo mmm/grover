@@ -7,6 +7,7 @@
 #include <sys/resource.h>
 #include <unistd.h>
 
+#include "Bures.h"
 #include "display.h"
 
 void showProgress( const int step, const int numSteps, const int numQubits ) {
@@ -63,7 +64,9 @@ extern void printDiffs( const State *const rho1, const State *const rho2 ) {
     const Matrix<complex<double> >& mat1 = rho1->matrix();
     const Matrix<complex<double> >& mat2 = rho2->matrix();
 
-    cout << "rho1 times rho2 = " << mat1*mat2 << endl;
-    cout << "rho1 plus rho2 = " << mat1+mat2 << endl;
+//    cout << "rho1 times rho2 = " << mat1*mat2 << endl;
+//    cout << "rho1 plus rho2 = " << mat1+mat2 << endl;
+    cout << "Bures distance between rho1 and rho2 = " 
+         << distBures(mat1,mat2) << endl;
 
 }

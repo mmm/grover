@@ -51,6 +51,7 @@ int main( int argc, char* argv[] ) {
         // take a step
         rho1->step( t, stepSize );
         rho2->step( t, stepSize );
+        //rho2->perturb();
         t += stepSize;
 
 #ifdef TELL_ME

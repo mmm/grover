@@ -2,7 +2,7 @@ all: stepper
 
 include ../Makedefs
 
-OBJS = PureState.o MixedState.o rk4.o display.o\
+OBJS = PureState.o MixedState.o rk4.o display.o Bures.o\
        derivs.o main.o
 
 
