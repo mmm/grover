@@ -28,7 +28,7 @@ void printVals( const double x, const valarray_double& y ) {
 #ifdef TELL_ME
     //cout << "x= " << x << "\t y= " << y[0] << "\t ";
     //cout << x << " " << y[0] << " " << y[1] << endl;
-    cout << x << " " << y[0] << " " << y[1] << " " << y*y << endl;
+    cout << x << " " << y[0] << " " << y[4] << " " << y*y << endl;
     //cout << y[0] << " " << y[1] << endl;
 #endif //TELL_ME
 }

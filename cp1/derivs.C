@@ -35,9 +35,23 @@ valarray_double dydx( const double x, const valarray_double& y ) {
         //                  + g_{jk,s}w^s
         //                  - g_{jk,{\bar s}}{\bar w}^s ) w^j
         for( int i = 0; i<n; i++ ) {
-            wdot[i] = 0.0;
-                // g^{ik}
-            //1/c * ( 1 + z*zbar ) * (
+            wdot[i] = w[i] * ( z*wbar + zbar*w )/(1 + z*zbar)
+                     + 
+                      zbar[i] * ( 
+                          (1 + z*zbar)*(w*w) - 2*(z*w)*( z*wbar + zbar*w ) 
+                      )
+                      /((1 + z*zbar)*(1 + z*zbar))
+                     +
+                      z[i] * ( 
+                          2*(z*w)*(zbar*wbar)*(1 + z*zbar) -
+                          2*(zbar*zbar)*(z*w)*( z*wbar + zbar*w ) +
+                          (1 + z*zbar)*(zbar*w)*( z*wbar + zbar*w ) +
+                          (1 + z*zbar)*(zbar*zbar)*(w*w) -
+                          (1 + z*zbar)*(z*zbar)*(w*wbar) -
+                          (1 + z*zbar)*(w*w)
+                      )
+                      /((1 + z*zbar)*(1 + z*zbar));
+
         }
         valarray_double zbardot = wbar;
         valarray_double wbardot(0.0, n);
