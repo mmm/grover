@@ -20,12 +20,12 @@ int main() {
     valarray<double> y( 0.0, NUM_OF_EQNS );
     init( &x, &y );
 
-    cout << y.size() 
-         << " "
-         << y[0]
-         << " "
-         << y[1]
-         << endl;
+//    cout << y.size() 
+//         << " "
+//         << y[0]
+//         << " "
+//         << y[1]
+//         << endl;
 
     // some setup
     const int numSteps = 1000000; 
