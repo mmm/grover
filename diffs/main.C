@@ -64,7 +64,7 @@ int main( int argc, char* argv[] ) {
     //uniformGenerator.seed( static_cast<unsigned int>( time(0) ) );
 
     // outputfile stuff
-    char fileAppend[2 + sizeof(int) + sizeof(double)] = "";
+    char fileAppend[5 + sizeof(int) + 2*sizeof(double)] = "";
     sprintf( fileAppend, "-%d-n%f-s%f", numQubits, upperBound, stepSize );
     outFileA += fileAppend;
     outFileB += fileAppend;
