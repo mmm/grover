@@ -13,8 +13,9 @@ void PureState::init(void) {
     try {
         valarray<double> z(1.0/sqrt(_dimension), n);
         valarray<double> w(-10.0, n);
-        valarray<double> zbar(1.0/sqrt(_dimension), n);
-        valarray<double> wbar(-10.0, n);
+        //valarray<double> w(0.0, n);
+        valarray<double> zbar(0.0, n);
+        valarray<double> wbar(0.0, n);
         for( int i = 0; i<n; i++ ) {
             _data[i] = z[i];
             _data[n+i] = w[i];
@@ -59,34 +60,48 @@ void PureState::step( const double time, const double stepSize ) {
 
 }
 
+Matrix<complex<double> > PureState::matrix( void ) const {
 
-void PureState::print( const double t ) const { 
-
-    if ( _data.size() % 4 ) throw;
-
-    const int n = _data.size() / 4;
+    Matrix<complex<double> > rho(_dimension,_dimension,0.0);
 
     try {
-        valarray<double> states(0.0, n+1);
-        states[0] = 1.0/sqrt( _dimension );
+        const int n = _data.size() / 4;
+        valarray<complex<double> > states(0.0, _dimension);
+        states[0] = complex<double>( 1.0/sqrt( _dimension ), 0.0 );
         for( int i = 0; i<n; i++ ) {
-            states[i+1] = _data[i];
+            states[i+1] = complex<double>( _data[i], _data[2*n+i] );
         }
-
-        // normalize
-        states /= sqrt( states*states );
-#ifdef TELL_ME
-        cout << "t= " << t << endl;
-        for(int i = 0; i< n+1; i++ ) {
-            cout << "states[" << i << "] = " << states[i] << endl;
+        //normalize...
+        states /= sqrt(abs(
+                    static_cast<valarray<complex<double> > >(states) * 
+                    static_cast<valarray<complex<double> > >(states.apply(conj))
+                  ));
+    
+        for (int i=0; i<_dimension; i++ ) {
+            for (int j=0; j<_dimension; j++ ) {
+                rho(i+1,j+1) = states[i]*conj(states[j]);
+            }
         }
-        cout << "states*states = " << states*states << endl;
-#endif //TELL_ME
-
     }
     catch(out_of_range) {
         cerr << "oops" << endl;
         exit(1);
     }
+
+    return rho;
+
+}
+
+void PureState::print( const double t ) const { 
+
+    Matrix<complex<double> > rho = matrix();
+
+    cout << "Pure state density matrix is : " << rho << endl;
+
+    complex<double> trace = 0.0;
+    for (int i=1; i<_dimension+1; i++) {
+        trace += rho(i,i);
+    }
+    cout << "with trace : " << abs(trace) << endl;
 
 }

@@ -12,6 +12,8 @@ class PureState: public State {
         State(dim), _data( double(0), 4*(dim-1) ) {};
     virtual ~PureState() {};
 
+    virtual Matrix<complex<double> > matrix( void ) const;
+
     virtual void init( void );
     virtual void init( const valarray<double> z_i,
                        const valarray<double> w_i,

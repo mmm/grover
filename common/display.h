@@ -3,10 +3,9 @@
 #ifndef _DISPLAY_H_
 #define _DISPLAY_H_
 
-#include "myvalarray.h"
+#include "State.h"
 
-extern void printVals( const double x, const valarray<double>& y );
 extern void showProgress( const int step, const int numSteps, const int numQubits );
-extern void printDensityMatrix( const double x, const valarray<double>& y );
+extern void printDiffs( const State *const rho1, const State *const rho2 );
 
 #endif // _DISPLAY_H_

@@ -58,6 +58,7 @@ int main( int argc, char* argv[] ) {
         if ( i == 0 || i == numSteps - 1 ) {
             rho1->print(t);
             rho2->print(t);
+            printDiffs(rho1,rho2);
         }
 
 //        char line[80];
