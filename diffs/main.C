@@ -19,15 +19,20 @@ void usage( void ) {
 int main( int argc, char* argv[] ) {
 
     // some setup
+
+    //const int numSteps = 250; 
+    //double stepSize = 0.0002;
+
     const int numSteps = 500; 
-    //double stepSize = .5 * 1/(double)numSteps;
-    //double stepSize = 0.000001;
     double stepSize = 0.0001;
+
+    //const int numSteps = 1000; 
+    //double stepSize = 0.00005;
     Uniform<double> uniformGenerator;
     //uniformGenerator.seed( static_cast<unsigned int>( time(0) ) );
+    //const double upperBound = 0.0001; // biggest noise can get(???)
     //const double upperBound = 0.001; // biggest noise can get(???)
     const double upperBound = 0.01; // biggest noise can get(???)
-    //const double upperBound = 0.0001; // biggest noise can get(???)
 
     int opt,
         numQubits = 4;
@@ -89,6 +94,7 @@ int main( int argc, char* argv[] ) {
             t += stepSize;
 
             if ( 0 == i%aHundredth ) {
+                //rho1->print(t);
                 printDiffs(outFileStream,t,rho1,rho2);
             }
 #ifdef TELL_ME
