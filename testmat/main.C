@@ -43,7 +43,7 @@ int main( int argc, char* argv[] ) {
         }
     }
 
-    get_eps();
+    cout << "EPS = " << get_eps() << endl;
 
     const int dimension = int( pow( 2, numQubits ) );
     const complex<double> zero(0.0,0.0);

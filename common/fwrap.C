@@ -59,7 +59,7 @@ extern "C"
         fda_ W, fda_ work, cfi_ lwork, fda_ rwork, cfi_ lrwork, fi_ iwork, 
             cfi_ liwork, fi_ info);
 
-    void* F77_DLAMCH(cfch_ ch);
+    Fortran_double F77_DLAMCH(cfch_ ch);
 
 }
 
@@ -209,15 +209,10 @@ Vector<double> Hermitian_eigenvalue_solve( Fortran_Matrix<std::complex<double> >
         return eigvals;
 }
 
-void get_eps(void) {
+double get_eps(void) {
 
     char ch = 'E';
-    double* ret = F77_DLAMCH(&ch);
-
-//    cout << (double)ret << endl;
-//    cout << (double*)ret << endl;
-
-//    return ret;
+    return F77_DLAMCH(&ch);
 
 }
 

@@ -9,6 +9,8 @@
 
 #include "Bures.h"
 #include "Matrices.h"
+#include "fwrap.h"
+
 #include "display.h"
 
 void showProgress( const int step, const int numSteps, const int numQubits ) {
@@ -67,18 +69,20 @@ extern void printDiffs( ofstream& outFile,
 
     const Matrix<complex<double> >& mat1 = rho1->matrix();
     const Matrix<complex<double> >& mat2 = rho2->matrix();
-
-    //cout << "Bures distance between rho1 and rho2 = " 
-    //     << distBures(mat1,mat2) << endl;
-
-    //outFile << "At time " << time 
-    //        << ", the Bures distance between rho1 and rho2 is: " 
-    //        << distBures(mat1,mat2) << endl;
-
+    // errbnds on Bures?
     outFile << time * 100.0
             << ' '
             << distBures(mat1,mat2) 
-            << ' '
-            << eigVals(mat2)
-            << endl;
+            << ' ';
+    
+    const Vector<double> eVals = eigVals(mat2);
+//    const double eValErrBnd = get_eps() * 
+//        max( eVals[0], eVals[ eVals.size() - 1 ] ); 
+// too small for now
+    for ( int i=eVals.size() -1; i>=0; i-- ) {
+        outFile << eVals[i]
+                << ' ';
+    }
+    outFile << endl;
+
 }
