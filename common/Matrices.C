@@ -4,6 +4,7 @@
 #include <tnt/fmat.h>
 
 #include "fwrap.h"
+#include "exceptions.h"
 
 #include "Matrices.h"
 
@@ -51,6 +52,18 @@ Fortran_Matrix<complex<double> > dagger( const Fortran_Matrix<complex<double> >&
 
 }
 
+Matrix<complex<double> > dagger( const Matrix<complex<double> >& mat ) {
+
+    Matrix<complex<double> > tmp = mat;
+    for(int i=0; i<mat.num_rows(); i++) {
+        for(int j=0; j<mat.num_rows(); j++) {
+            tmp[j][i] = conj( mat[i][j] );
+        }
+    }
+
+    return tmp;
+
+}
 
 Fortran_Matrix<complex<double> > toFortranMatrix( const Matrix<complex<double> >& mat ) {
 
@@ -131,5 +144,38 @@ const Vector<double> eigVals( const Matrix<complex<double> >& mat ) {
     eigVals = Hermitian_eigenvalue_solve( eigVects );
 
     return eigVals;
+
+}
+
+const Matrix<complex<double> > randomMatrix( Uniform<double>& generator, 
+                                             const int dimension,
+                                             const double upperBound ) {
+
+    Matrix<complex<double> > tmp( dimension, dimension,
+                                  complex<double>(0.0,0.0) );
+    for ( int i=0; i<dimension; i++ ) {
+        tmp[i][i] = generator.random();
+        for ( int j=0; j<i; j++ ) {
+            tmp[j][i] = complex<double>( generator.random() - 0.5,
+                                         generator.random() - 0.5 );
+            tmp[i][j] = conj( tmp[j][i] );
+        }
+    }
+
+    double trace = 0.0;
+    for ( int i=0; i<dimension; i++ ) {
+        trace += tmp[i][i].real();
+    }
+
+    if ( trace < ZERO ) throw Fpe("trace too small");
+
+    for ( int i=0; i<dimension; i++ ) {
+        for ( int j=0; j<dimension; j++ ) {
+            tmp[i][j] /= trace;
+            tmp[i][j] *= upperBound;
+        }
+    }
+
+    return tmp;
 
 }
