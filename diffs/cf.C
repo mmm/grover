@@ -5,6 +5,7 @@
 #include <math.h> // cos
 #include "myvalarraydouble.h"
 
+#include "init.h"
 #include "cf.h"
 
 void compareWithSoln( const double x, const valarray_double& y ) {
