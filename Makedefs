@@ -4,8 +4,8 @@ COMMON = ../common
 VPATH = $(COMMON)/
 
 CFLAGS = -ansi -pedantic -Wall -O -gstabs+ -D_REENTRANT 
-CFLAGS += -ftemplate-depth-17 -funroll-loops -fstrict-aliasing -fno-gcse
-CFLAGS += -I$(COMMON) -I.
+CFLAGS += -ftemplate-depth-17 -funroll-loops -fstrict-aliasing #-fno-gcse
+CFLAGS += -I. -I$(COMMON) 
 
 # debug specific flags here
 #CFLAGS += -DTELL_ME -DDONTTHREAD
