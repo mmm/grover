@@ -3,11 +3,12 @@
 COMMON = ../common
 VPATH = $(COMMON)/
 
+CFLAGS = -ansi -pedantic -Wall -O2 -D_REENTRANT -D_GNU_SOURCE
 #CFLAGS = -ansi -pedantic -Wall -O -gstabs+ -D_REENTRANT -D_GNU_SOURCE
-CFLAGS = -ansi -pedantic -Wall -gstabs+ -D_REENTRANT -D_GNU_SOURCE
+#CFLAGS = -ansi -pedantic -Wall -gstabs+ -D_REENTRANT -D_GNU_SOURCE
 CFLAGS += -ftemplate-depth-17 -funroll-loops -fstrict-aliasing #-fno-gcse
 CFLAGS += -I. -I$(COMMON) 
-CFLAGS += -pg
+#CFLAGS += -pg
 
 # debug specific flags here
 #CFLAGS += -DTELL_ME -DDONTTHREAD

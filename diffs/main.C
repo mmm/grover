@@ -11,57 +11,47 @@
 
 
 void usage( void ) {
-    cout << "Usage: stepper [-q num-qubits] [-n num-steps]" 
+    cout << "Usage: stepper [-d prob-datafile] [-n num-steps] [-o bures-datafile] "
+         << "[-q num-qubits] [-s step-size] [-u noise-threshold] " 
          << endl;
     exit(1);
 }
 
 int main( int argc, char* argv[] ) {
 
-    // some setup
 
-    //const int numSteps = 250; 
-    //double stepSize = 0.0002;
-
-    //const int numSteps = 500; 
-    //double stepSize = 0.0001;
-
-    //const int numSteps = 1000; 
-    //double stepSize = 0.00005;
-
-    
-
-    const int numSteps = 1000; 
+    int numSteps = 500; 
     double stepSize = 0.0001;
 
+    //double upperBound = 0.001; // biggest noise can get(???)
+    //double upperBound = 0.0025; // biggest noise can get(???)
+    double upperBound = 0.005; // biggest noise can get(???)
+    //double upperBound = 0.0075; // biggest noise can get(???)
+    //double upperBound = 0.01; // biggest noise can get(???)
 
-
-
-
-
-    Uniform<double> uniformGenerator;
-    //uniformGenerator.seed( static_cast<unsigned int>( time(0) ) );
-
-    //const double upperBound = 0.0001; // biggest noise can get(???)
-    //const double upperBound = 0.001; // biggest noise can get(???)
-    const double upperBound = 0.01; // biggest noise can get(???)
-
-    int opt,
-        numQubits = 4;
-    string outFile = "output/stepper.out";
-    while ( (opt = getopt( argc, argv, "n:o:q:" )) != -1 ) {
+    int opt = 0;
+    int numQubits = 4;
+    string outFileA = "output/Bures.out";
+    string outFileB = "output/targetCoeff.out";
+    while ( (opt = getopt( argc, argv, "d:n:o:q:s:u:" )) != -1 ) {
         switch ( opt ) {
+        case 'd':
+            outFileB = optarg;
+            break;
         case 'n':
-            //const_cast<int>(numSteps) = optarg;
-            cout << "numSteps = " << optarg << endl;
+            numSteps = atoi(optarg);
             break;
         case 'o':
-            outFile = optarg;
-            cout << "outFile = " << optarg << endl;
+            outFileA = optarg;
             break;
         case 'q':
             numQubits = atoi(optarg);
-            cout << "numQubits = " << optarg << endl;
+            break;
+        case 's':
+            stepSize = atof(optarg);
+            break;
+        case 'u':
+            upperBound = atof(optarg);
             break;
         default:
             usage();
@@ -70,16 +60,29 @@ int main( int argc, char* argv[] ) {
 
     const int dimension = int( pow( 2, numQubits ) );
 
+    Uniform<double> uniformGenerator;
+    //uniformGenerator.seed( static_cast<unsigned int>( time(0) ) );
+
     // outputfile stuff
-    char fileBase[2 + sizeof(int) + sizeof(double)] = "";
-    sprintf( fileBase, "-%d-n%f-s%f", numQubits, upperBound, stepSize );
-    outFile += fileBase;
-    cout << "outFile = " << outFile << endl;
-    ofstream outFileStream( outFile.c_str() );
-    if ( !outFileStream ) {
+    char fileAppend[2 + sizeof(int) + sizeof(double)] = "";
+    sprintf( fileAppend, "-%d-n%f-s%f", numQubits, upperBound, stepSize );
+    outFileA += fileAppend;
+    outFileB += fileAppend;
+    ofstream outFileStreamA( outFileA.c_str() );
+    ofstream outFileStreamB( outFileB.c_str() );
+    if ( !outFileStreamA || !outFileStreamB ) {
         cerr << "Oops!" << endl;
         exit(1);
     }
+
+    cout << "Bures distance -v- time to " 
+         <<  outFileA << endl;
+    cout << "target state prob -v- time to " 
+         <<  outFileB << endl;
+    cout << "numQubits = " << numQubits << endl;
+    cout << "numSteps = " << numSteps << endl;
+    cout << "step size = " << stepSize << endl;
+    cout << "upper bound = " << upperBound << endl;
 
 
     // initial conditions
@@ -93,7 +96,8 @@ int main( int argc, char* argv[] ) {
 #ifdef TELL_ME
 //        rho1->print(t);
 //        rho2->print(t);
-        printDiffs(outFileStream,t,rho1,rho2);
+        printDiffs(outFileStreamA,t,rho1,rho2);
+        printLeadingEVals(outFileStreamB,t,rho1,rho2);
 #endif //TELL_ME
 
         int aHundredth = numSteps/100;
@@ -108,15 +112,16 @@ int main( int argc, char* argv[] ) {
             if ( 0 == i%aHundredth ) {
                 //rho1->print(t);
                 //rho2->print(t);
-                //printLeadingEVals(outFileStream,t,rho1,rho2);
-                printDiffs(outFileStream,t,rho1,rho2);
+                printLeadingEVals(outFileStreamB,t,rho1,rho2);
+                printDiffs(outFileStreamA,t,rho1,rho2);
             }
 #ifdef TELL_ME
             showProgress(i,numSteps,numQubits);
             if ( i == numSteps - 1 ) {
 //                rho1->print(t);
 //                rho2->print(t);
-                printDiffs(outFileStream,t,rho1,rho2);
+                printDiffs(outFileStreamA,t,rho1,rho2);
+                printLeadingEVals(outFileStreamB,t,rho1,rho2);
             }
 //            char line[80];
 //            cin.getline(line,80);
@@ -132,7 +137,8 @@ int main( int argc, char* argv[] ) {
     delete rho1;
     delete rho2;
 
-    outFileStream.close();
+    outFileStreamA.close();
+    outFileStreamB.close();
 
 }
 
