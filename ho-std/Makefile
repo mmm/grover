@@ -1,15 +1,17 @@
+CXX = $(HOME)/bin/g++
+
 all: stepper
 
 include ../Makedefs
 
-OBJS = rk4.o myvalarraydouble.o \
+OBJS = rk4.o \
        main.o derivs.o init.o cf.o
 
 
 # targets
 stepper: $(OBJS)
 	@echo "--- stepper ---"
-	$(CXX) $(CFLAGS) $(LFLAGS) -o stepper $(OBJS) $(LIBS)
+	$(CXX) $(CFLAGS) $(LFLAGS) -o stepper $^ $(LIBS)
 
 clean:
 	@echo "cleaning up.."
@@ -20,7 +22,6 @@ clobber: clean
 
 depend:
 	@echo "Updating dependancies..."
-	makedepend -m -Y. -- $(CFLAGS) -- *.C *.h $(COMMON)/*.C $(COMMON)/*.h
-#	makedepend -m -Y. -f.depend -- $(CFLAGS) -- *.C	
+	makedepend -m -Y. -- $(CFLAGS) -- *.C *.h $(COMMON)/*.h $(COMMON)/*.C
 
 # DO NOT DELETE

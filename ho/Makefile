@@ -9,7 +9,7 @@ OBJS = rk4.o myvalarraydouble.o \
 # targets
 stepper: $(OBJS)
 	@echo "--- stepper ---"
-	g++ $(CFLAGS) $(LFLAGS) -o stepper $^ $(LIBS)
+	$(CXX) $(CFLAGS) $(LFLAGS) -o stepper $^ $(LIBS)
 
 clean:
 	@echo "cleaning up.."

@@ -10,7 +10,7 @@ include ./Makedefs
 FLAGS_TO_PASS = \
         MAKE='$(MAKE)'
 
-SUBDIRS = ho cp1 cpn
+SUBDIRS = ho cp1 cpn ho-std
 
 all:
 	@for subdir in $(SUBDIRS) ; do \

@@ -1,3 +1,4 @@
+#CXX = /usr/local/bin/g++
 
 COMMON = ../common
 VPATH = $(COMMON)/
@@ -24,7 +25,7 @@ LFLAGS =
 # pattern rules...
 %.o : %.C
 	@echo "---" $@ "---"
-	@g++ $(CFLAGS) -o $@ -c $<
+	@$(CXX) $(CFLAGS) -o $@ -c $<
 
 %.o : %.f
 	@echo "---" $@ "---"
