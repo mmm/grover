@@ -105,3 +105,27 @@ void PureState::print( const double t ) const {
     cout << "with trace : " << abs(trace) << endl;
 
 }
+
+void PureState::perturb( Uniform<double>& generator, const double upperBound ) {
+
+//    cout << "PureState random number = " 
+//         << ( generator.random() - 0.5 ) * upperBound 
+//         << endl;
+
+    if ( _data.size() % 4 ) throw;
+    const int n = _data.size() / 4;
+
+    try {
+        for( int i = 0; i<n; i++ ) {
+            _data[i] += ( generator.random() - 0.5 ) * upperBound;
+        }
+        for( int i = 2*n; i<3*n; i++ ) {
+            _data[i] += ( generator.random() - 0.5 ) * upperBound;
+        }
+    }
+    catch(out_of_range) {
+        cerr << "oops" << endl;
+        exit(1);
+    }
+
+}

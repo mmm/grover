@@ -18,5 +18,6 @@ const Matrix<complex<double> > sqrt( const Matrix<complex<double> >& mat );
 
 extern double distBures( const Matrix<complex<double> >& mat1, 
                          const Matrix<complex<double> >& mat2 );
+extern const double trace( const Matrix<complex<double> >& mat );
 
 #endif // _BURES_H_

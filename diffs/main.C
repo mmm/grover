@@ -1,6 +1,7 @@
 //
 #include <unistd.h> // getopt
 #include <cmath> // pow
+#include <time.h> // time
 
 #include "PureState.h"
 #include "MixedState.h"
@@ -19,6 +20,9 @@ int main( int argc, char* argv[] ) {
     const int numSteps = 10000; 
     //double stepSize = .5 * 1/(double)numSteps;
     double stepSize = 0.000001;
+    Uniform<double> uniformGenerator;
+    //uniformGenerator.seed( static_cast<unsigned int>( time(0) ) );
+    const double upperBound = 0.001; // biggest noise can get(???)
 
     int opt,
         numQubits = 4;
@@ -50,8 +54,9 @@ int main( int argc, char* argv[] ) {
 
         // take a step
         rho1->step( t, stepSize );
+//        rho1->perturb( uniformGenerator, upperBound );
         rho2->step( t, stepSize );
-        //rho2->perturb();
+//        rho2->perturb( uniformGenerator, upperBound );
         t += stepSize;
 
 #ifdef TELL_ME
@@ -62,8 +67,8 @@ int main( int argc, char* argv[] ) {
             printDiffs(rho1,rho2);
         }
 
-//        char line[80];
-//        cin.getline(line,80);
+        char line[80];
+        cin.getline(line,80);
 #endif //TELL_ME
 
     }

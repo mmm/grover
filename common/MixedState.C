@@ -3,6 +3,7 @@
 
 #include "rk4.h"
 #include "MixedState.h"
+#include "Bures.h"
    
 MixedState::~MixedState() {
     for ( int i = 0; i< _dimension; i++ ) {
@@ -17,7 +18,6 @@ void MixedState::init( void ) {
     try{
         valarray<double> z(1.0/sqrt(_dimension), _dimension - 1);
         valarray<double> w(0.0, _dimension - 1);
-        //valarray<double> w(-10.0, _dimension - 1);
         valarray<double> zbar(0.0, _dimension - 1);
         valarray<double> wbar(0.0, _dimension - 1);
 
@@ -25,6 +25,17 @@ void MixedState::init( void ) {
             _pureStates.push_back( new PureState(_dimension) );
             _pureStates[i]->init(z,w,zbar,wbar);
         }
+
+        // first pure state is equally--weighted superposition of everything
+        //_pureStates[0]->init(z,w,zbar,wbar);
+
+        valarray<double> base(0.0, _dimension - 1);
+        for ( int i = 1; i< _dimension; i++ ) {
+            base = 0.0;
+            base[i-1] = 1.0;
+            _pureStates[i]->init(base,w,zbar,wbar);
+        }
+
     }
     catch(...) {
         cerr << "oops in Mixed::init" << endl;
@@ -70,6 +81,15 @@ Matrix<complex<double> > MixedState::matrix( void ) const {
 
     }
 
+    //renormalize
+    //rho /= trace(rho);  // not in TNT!!!
+    const double tr = trace(rho);
+    for ( int i=0; i<_dimension; i++ ) {
+        for ( int j=0; j<_dimension; j++ ) {
+            rho[i][j] /= tr;
+        }
+    }
+
     return rho;
 
 }
@@ -85,5 +105,19 @@ void MixedState::print( const double t ) const {
         trace += rho(i,i);
     }
     cout << "with trace : " << abs(trace) << endl;
+
+    for (int i=0; i< _dimension; i++ ) {
+        cout << "Pure state component i = " << i << endl;
+        cout << "lambda i = " << _lambda[i] << endl;
+        _pureStates[i]->print(t);
+    }
+}
+
+void MixedState::perturb( Uniform<double>& generator, const double upperBound ) {
+
+    for ( int i=0; i<_dimension; i++ ) {
+        _pureStates[i]->perturb( generator, upperBound );
+        _lambda[i] += ( generator.random() - 0.5 ) * upperBound;
+    }
 
 }

@@ -13,11 +13,14 @@ class MixedState: public State {
         State(dim), _lambda(dim,0.0) {};
     virtual ~MixedState();
 
+    //accessors
     virtual Matrix<complex<double> > matrix( void ) const;
+    virtual void print( const double time ) const ;
 
+    //mutators
     virtual void init( void );
     virtual void step( const double time, const double stepSize );
-    virtual void print( const double time ) const ;
+    virtual void perturb( Uniform<double>& generator, const double upperBound );
   private:
     vector<double> _lambda;
     vector<PureState*> _pureStates;
