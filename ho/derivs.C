@@ -2,15 +2,15 @@
 // derivs.C
 //
 #include <stdexcept>
-#include "myvalarraydouble.h"
+#include <valarray>
 
 #include "derivs.h"
 
 
 // return dy/dx for each particular equation
-valarray_double dydx( const double x, const valarray_double& y ) {
+valarray<double> dydx( const double x, const valarray<double>& y ) {
 
-    valarray_double tmpdydx(0.0,y.size());
+    valarray<double> tmpdydx(0.0,y.size());
     try {
         tmpdydx[0] = y[1];
         tmpdydx[1] = - y[0];

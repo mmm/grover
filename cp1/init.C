@@ -2,18 +2,18 @@
 // init.C
 //
 #include <stdexcept>
-#include "myvalarraydouble.h"
+#include <valarray>
 
 #include "derivs.h"
 
 
 // initialize variables...
-void init( double *const x, valarray_double *const y ) {
+void init( double *const x, valarray<double> *const y ) {
     *x = 0.0;
 
     if ( y->size() != 4 ) throw;
 
-    valarray_double& ry = *y;
+    valarray<double>& ry = *y;
     try {
         // slices would be easier, but oh well...
         double z = 0.0;

@@ -1,7 +1,7 @@
 #define _POSIX_SOURCE 1
 // want to integrate ODEs
 //
-#include "myvalarraydouble.h"
+#include <valarray>
 //#include "euler.h"
 #include "rk4.h"
 //#include "adaptRk4.h"
@@ -17,9 +17,9 @@ int main() {
     // initial conditions
     double x = 0.0;
     double xtmp = 0.0;
-    valarray_double y1( 0.0, NUM_OF_EQNS );
-    valarray_double y2( 0.0, NUM_OF_EQNS );
-    valarray_double dytmp( 0.0, NUM_OF_EQNS );
+    valarray<double> y1( 0.0, NUM_OF_EQNS );
+    valarray<double> y2( 0.0, NUM_OF_EQNS );
+    valarray<double> dytmp( 0.0, NUM_OF_EQNS );
     init( &x, &y1 );
     init( &x, &y2 );
     perturb( &x, &y2 );

@@ -1,4 +1,5 @@
 #CXX = /usr/local/bin/g++
+CXX = $(HOME)/bin/g++
 
 COMMON = ../common
 VPATH = $(COMMON)/

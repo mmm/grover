@@ -1,7 +1,8 @@
 #define _POSIX_SOURCE 1
 // want to integrate ODEs
 //
-#include "myvalarraydouble.h"
+#include <iostream>
+#include <valarray>
 //#include "euler.h"
 #include "rk4.h"
 //#include "adaptRk4.h"
@@ -16,8 +17,15 @@ int main() {
 
     // initial conditions
     double x = 0.0;
-    valarray_double y( 0.0, NUM_OF_EQNS );
+    valarray<double> y( 0.0, NUM_OF_EQNS );
     init( &x, &y );
+
+    cout << y.size() 
+         << " "
+         << y[0]
+         << " "
+         << y[1]
+         << endl;
 
     // some setup
     const int numSteps = 10000; 
@@ -40,6 +48,9 @@ int main() {
 //            compareWithSoln( x, y );
 //        }
         printVals( x, y );
+        
+        char line[80];
+        cin.getline(line,80);
 #endif //TELL_ME
 
     }

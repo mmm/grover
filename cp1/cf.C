@@ -3,11 +3,11 @@
 //
 #include <iostream>
 #include <math.h> // cos
-#include "myvalarraydouble.h"
+#include <valarray>
 
 #include "cf.h"
 
-void compareWithSoln( const double x, const valarray_double& y ) {
+void compareWithSoln( const double x, const valarray<double>& y ) {
 
     // set precision...
     //cout.
@@ -24,7 +24,7 @@ void compareWithSoln( const double x, const valarray_double& y ) {
 
 }
 
-void printVals( const double x, const valarray_double& y ) {
+void printVals( const double x, const valarray<double>& y ) {
 #ifdef TELL_ME
     //cout << "x= " << x << "\t y= " << y[0] << "\t ";
     //cout << x << " " << y[0] << " " << y[1] << endl;

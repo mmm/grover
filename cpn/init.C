@@ -2,25 +2,25 @@
 // init.C
 //
 #include <stdexcept>
-#include "myvalarraydouble.h"
+#include <valarray>
 
 #include "derivs.h"
 
 
 // initialize variables...
-void init( double *const x, valarray_double *const y ) {
+void init( double *const x, valarray<double> *const y ) {
     *x = 0.0;
 
     if ( y->size() % 4 ) throw;
     const int n = y->size() / 4;
 
-    valarray_double& ry = *y;
+    valarray<double>& ry = *y;
     try {
         // slices would be easier, but oh well...
-        valarray_double z(0.0, n);
-        valarray_double p(1.0, n);
-        valarray_double zbar(0.0, n);
-        valarray_double pbar(1.0, n);
+        valarray<double> z(0.0, n);
+        valarray<double> p(1.0, n);
+        valarray<double> zbar(0.0, n);
+        valarray<double> pbar(1.0, n);
         for( int i = 0; i<n; i++ ) {
             ry[i] = z[i];
             ry[n+i] = p[i];

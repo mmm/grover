@@ -2,14 +2,14 @@ all: stepper
 
 include ../Makedefs
 
-OBJS = rk4.o myvalarraydouble.o \
+OBJS = rk4.o \
        main.o derivs.o init.o cf.o
 
 
 # targets
 stepper: $(OBJS)
 	@echo "--- stepper ---"
-	g++ $(CFLAGS) $(LFLAGS) -o stepper $(OBJS) $(LIBS)
+	$(CXX) $(CFLAGS) $(LFLAGS) -o stepper $(OBJS) $(LIBS)
 
 clean:
 	@echo "cleaning up.."

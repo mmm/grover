@@ -2,17 +2,17 @@
 // derivs.C
 //
 #include <stdexcept>
-#include "myvalarraydouble.h"
+#include <valarray>
 
 #include "derivs.h"
 
 
 // return dy/dx for each particular equation
-valarray_double dydx( const double x, const valarray_double& y ) {
+valarray<double> dydx( const double x, const valarray<double>& y ) {
 
     if ( y.size() != 4 ) throw;
 
-    valarray_double tmpdydx(0.0,y.size());
+    valarray<double> tmpdydx(0.0,y.size());
     try {
         // slices would be easier, but oh well...
         double z = y[0];

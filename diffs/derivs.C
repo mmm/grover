@@ -2,26 +2,38 @@
 // derivs.C
 //
 #include <stdexcept>
-#include "myvalarraydouble.h"
+#include <valarray>
 
 #include "derivs.h"
 
+double std::operator*( const valarray<double>& a, const valarray<double>& b ) {
+
+    if ( a.size() != b.size() ) throw;
+
+    double sum = 0.0;
+    for ( unsigned int i = 0; i < a.size(); i++ ) {
+        sum += a[i]*b[i];
+    }
+
+    return sum;
+
+}
 
 // return dy/dx for each particular equation
-valarray_double dydx( const double x, const valarray_double& y ) {
+valarray<double> dydx( const double x, const valarray<double>& y ) {
 
     if ( y.size() % 4 ) throw;
 
     const int n = y.size() / 4;
 
 
-    valarray_double tmpdydx(0.0,y.size());
+    valarray<double> tmpdydx(0.0,y.size());
     try {
         // slices would be easier, but oh well...
-        valarray_double z(0.0, n);
-        valarray_double w(0.0, n);
-        valarray_double zbar(0.0, n);
-        valarray_double wbar(0.0, n);
+        valarray<double> z(0.0, n);
+        valarray<double> w(0.0, n);
+        valarray<double> zbar(0.0, n);
+        valarray<double> wbar(0.0, n);
         for( int i = 0; i<n; i++ ) {
             z[i] = y[i];
             w[i] = y[n+i];
@@ -29,11 +41,11 @@ valarray_double dydx( const double x, const valarray_double& y ) {
             wbar[i] = y[3*n+i];
         }
         
-        valarray_double zdot(w);
-        //valarray_double zdot(0.0, n);
+        valarray<double> zdot(w);
+        //valarray<double> zdot(0.0, n);
         //zdot = w;
 
-        valarray_double wdot(0.0, n);
+        valarray<double> wdot(0.0, n);
         for( int i = 0; i<n; i++ ) {
             wdot[i] = 
                 ( zbar[i] * ( 
@@ -52,11 +64,11 @@ valarray_double dydx( const double x, const valarray_double& y ) {
                 ) / ( 1 + z*zbar )*( 1 + z*zbar );
         }
 
-        valarray_double zbardot(wbar);
-        //valarray_double zbardot(0.0, n);
+        valarray<double> zbardot(wbar);
+        //valarray<double> zbardot(0.0, n);
         //zbardot = wbar;
 
-        valarray_double wbardot(0.0, n);
+        valarray<double> wbardot(0.0, n);
         for( int i = 0; i<n; i++ ) {
             wbardot[i] = 
                 ( z[i] * ( 

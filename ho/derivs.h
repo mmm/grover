@@ -3,7 +3,7 @@
 #ifndef _DERIVS_H_
 #define _DERIVS_H_
 
-#include "myvalarraydouble.h"
-extern valarray_double dydx( const double x, const valarray_double& y );
+#include <valarray>
+extern valarray<double> dydx( const double x, const valarray<double>& y );
 
 #endif //_DERIVS_H_

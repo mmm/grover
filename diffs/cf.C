@@ -3,12 +3,12 @@
 //
 #include <iostream>
 #include <math.h> // cos
-#include "myvalarraydouble.h"
+#include <valarray>
 
 #include "init.h"
 #include "cf.h"
 
-void compareWithSoln( const double x, const valarray_double& y ) {
+void compareWithSoln( const double x, const valarray<double>& y ) {
 
     // set precision...
     //cout.
@@ -25,7 +25,7 @@ void compareWithSoln( const double x, const valarray_double& y ) {
 
 }
 
-void printVals( const double x, const valarray_double& y ) {
+void printVals( const double x, const valarray<double>& y ) {
 #ifdef TELL_ME
     cout << x 
         //<< " z= " 
@@ -44,12 +44,12 @@ void printVals( const double x, const valarray_double& y ) {
 #endif //TELL_ME
 }
 
-double calcDiff( const double x, const valarray_double& y1, const valarray_double& y2 ) {
+double calcDiff( const double x, const valarray<double>& y1, const valarray<double>& y2 ) {
     return 0.0;
 }
 
 
-void printDiffs( const double x, const valarray_double& y1, const valarray_double& y2 ) {
+void printDiffs( const double x, const valarray<double>& y1, const valarray<double>& y2 ) {
 #ifdef TELL_ME
     cout << x 
          << " " 
@@ -61,10 +61,10 @@ void printDiffs( const double x, const valarray_double& y1, const valarray_doubl
 #endif //TELL_ME
 }
 
-void printDeriv( const double xold, const double xnew, const valarray_double& dytmp,
-                 const valarray_double& y1, const valarray_double& y2 ) {
+void printDeriv( const double xold, const double xnew, const valarray<double>& dytmp,
+                 const valarray<double>& y1, const valarray<double>& y2 ) {
 
-    valarray_double deriv( 0.0, NUM_OF_EQNS );
+    valarray<double> deriv( 0.0, NUM_OF_EQNS );
 #ifdef TELL_ME
     cout << xold
          << " " 
