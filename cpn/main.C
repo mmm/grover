@@ -57,6 +57,9 @@ int main( int argc, char* argv[] ) {
 
 //        char line[80];
 //        cin.getline(line,80);
+        if ( i == 0 || i == numSteps - 1 ) {
+            printDensityMatrix( x, y );
+        }
 #endif //TELL_ME
 
     }

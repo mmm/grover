@@ -7,6 +7,17 @@
 // lifecycle //
 ///////////////
 
+Vector& Vector::operator=(const Vector& val) { 
+
+    if ( this != &val ) {
+        abort();
+        //delete[] _data;
+        //_data = new vector<double>( *(val._data) );
+        //*this = valarray<double>::operator=(val);
+    }
+    return *this;
+
+}
 
 ///////////////////
 // outside things

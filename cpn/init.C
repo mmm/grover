@@ -20,10 +20,13 @@ void init( double *const x, valarray<double> *const y ) {
     try {
         // slices would be easier, but oh well...
         //valarray<double> z(1.0/(double)n, n);
-        valarray<double> z(1.0/sqrt(n), n);
-        valarray<double> p(1.0, n);
-        valarray<double> zbar(0.0, n);
-        valarray<double> pbar(1.0, n);
+        //valarray<double> z(1.0/sqrt( pow(2,n) ), n);
+        valarray<double> z(1.0, n);
+        valarray<double> p(0.0, n);
+        p[0] = 0.1;
+        //valarray<double> zbar(1.0/sqrt( pow(2,n) ), n);
+        valarray<double> zbar(1.0, n);
+        valarray<double> pbar(0.0, n);
         for( int i = 0; i<n; i++ ) {
             ry[i] = z[i];
             ry[n+i] = p[i];
@@ -43,6 +46,7 @@ void init( double *const x, valarray<double> *const y ) {
 
 extern const int getNumOfEqns( const int numBits ) {
 
-    return (const int) pow( 2, numBits + 2 );
+    return (const int) 4 * ( (int)pow( 2, numBits ) - 1 );
+    //return (const int) pow( 2, numBits + 1 );
 
 }

@@ -6,6 +6,7 @@
 ///////////////////
 // outside things
 ///////////////////
+
 double std::operator*( const valarray<double>& a, const valarray<double>& b ) {
 
     if ( a.size() != b.size() ) throw;
@@ -18,6 +19,21 @@ double std::operator*( const valarray<double>& a, const valarray<double>& b ) {
     return sum;
 
 }
+
+//double std::operator*( const valarray<complex<double> >& a, const valarray<complex<double> >& b ) {
+//
+//    if ( a.size() != b.size() ) throw;
+//
+//    double sum = 0.0;
+//    for ( unsigned int i = 0; i < a.size(); i++ ) {
+//        sum += a[i]*b[i];
+//    }
+//
+//    return sum;
+//
+//}
+
+
 //double std::operator*( const valarray_double& a, const valarray_double& b ) {
 //
 //    if ( a.size() != b.size() ) throw;
