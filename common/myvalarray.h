@@ -15,20 +15,20 @@ std::operator*( const valarray<double>& a, const valarray<double>& b ) {
     return sum;
 }
 
-#include <complex>
-inline complex<double> 
-std::operator*( const valarray<complex<double> >& a, 
-                const valarray<complex<double> >& b ) {
-
-    if ( a.size() != b.size() ) throw;
-
-    complex<double> sum = 0.0;
-    for ( unsigned int i = 0; i < a.size(); i++ ) {
-        sum += a[i]*b[i];
-    }
-
-    return sum;
-}
+//#include <complex>
+//inline complex<double> 
+//std::operator*( const valarray<complex<double> >& a, 
+//                const valarray<complex<double> >& b ) {
+//
+//    if ( a.size() != b.size() ) throw;
+//
+//    complex<double> sum = 0.0;
+//    for ( unsigned int i = 0; i < a.size(); i++ ) {
+//        sum += a[i]*b[i];
+//    }
+//
+//    return sum;
+//}
 
 #endif // _MYVALARRAY_H_
 
