@@ -16,7 +16,12 @@ valarray<double> dydx( const double x, const valarray<double>& y ) {
 
     valarray<double> tmpdydx(0.0,y.size());
     try {
-        // slices would be easier, but oh well...
+        // slices would be easier, 
+//        slice_array<double>& z = y[slice(0,n-1,1)];
+//        slice_array<double>& w = y[slice(n,2*n-1,1)];
+//        slice_array<double>& zbar = y[slice(2*n,3*n-1,1)];
+//        slice_array<double>& wbar = y[slice(3*n,4*n-1,1)];
+        //but oh well...
         valarray<double> z(0.0, n);
         valarray<double> w(0.0, n);
         valarray<double> zbar(0.0, n);
@@ -27,14 +32,8 @@ valarray<double> dydx( const double x, const valarray<double>& y ) {
             zbar[i] = y[2*n+i];
             wbar[i] = y[3*n+i];
         }
-//        slice_array<double>& z = y[slice(0,n-1,1)];
-//        slice_array<double>& w = y[slice(n,2*n-1,1)];
-//        slice_array<double>& zbar = y[slice(2*n,3*n-1,1)];
-//        slice_array<double>& wbar = y[slice(3*n,4*n-1,1)];
         
         valarray<double> zdot(w);
-        //valarray<double> zdot(0.0, n);
-        //zdot = w;
 
         valarray<double> wdot(0.0, n);
         // calculate dot products first...
@@ -62,8 +61,6 @@ valarray<double> dydx( const double x, const valarray<double>& y ) {
         }
 
         valarray<double> zbardot(wbar);
-        //valarray<double> zbardot(0.0, n);
-        //zbardot = wbar;
 
         valarray<double> wbardot(0.0, n);
         // calculate dot products first...
