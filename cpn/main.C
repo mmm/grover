@@ -24,6 +24,7 @@ int main() {
     //double stepSize = .5 * 1/(double)numSteps;
     double stepSize = 0.000001;
 
+    valarray<double> dy( 0.0, NUM_OF_EQNS );
     for ( int i = 0; i < numSteps; i++ ){
 
         // take a step
@@ -33,6 +34,10 @@ int main() {
 
         y += stepRk4( x, y, stepSize );
         x += stepSize;
+
+//        stepRk4( x, y, stepSize, &dy );
+//        y += dy;
+//        x += stepSize;
 
 #ifdef TELL_ME
 //        // we can solve this one, so...
