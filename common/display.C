@@ -9,7 +9,6 @@
 #include <unistd.h>
 
 #include "myvalarray.h"
-#include "init.h"
 #include "display.h"
 
 
@@ -22,7 +21,7 @@ void printVals( const double x, const valarray<double>& y ) {
 #endif //TELL_ME
 }
 
-void showProgress( const int step, const int numSteps ) {
+void showProgress( const int step, const int numSteps, const int numQubits ) {
 
     static timeval startTime;
     if ( 0 == step ) {

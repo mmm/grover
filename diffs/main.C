@@ -1,50 +1,72 @@
-#define _POSIX_SOURCE 1
-// want to integrate ODEs
 //
-#include "myvalarray.h"
-#include "rk4.h"
+#include <unistd.h> // getopt
+#include <cmath> // pow
 
-#include "init.h"
-#include "cf.h"
+#include "State.h"
+#include "display.h"
 
 
-int main() {
+void usage( void ) {
+    cout << "Usage: stepper [-q num-qubits] [-n num-steps]" 
+         << endl;
+    exit(1);
+}
 
-    // initial conditions
-    double x = 0.0;
-    double xtmp = 0.0;
-    valarray<double> y1( 0.0, NUM_OF_EQNS );
-    valarray<double> y2( 0.0, NUM_OF_EQNS );
-    valarray<double> dytmp( 0.0, NUM_OF_EQNS );
-    init( &x, &y1 );
-    init( &x, &y2 );
-    perturb( &x, &y2 );
+int main( int argc, char* argv[] ) {
 
     // some setup
     const int numSteps = 10000; 
-    double stepSize = .5 * 1/(double)numSteps;
-    //double stepSize = 0.001;
+    //double stepSize = .5 * 1/(double)numSteps;
+    double stepSize = 0.000001;
+
+    int opt,
+        numQubits = 4;
+    while ( (opt = getopt( argc, argv, "n:q:" )) != -1 ) {
+        switch ( opt ) {
+        case 'n':
+            //const_cast<int>(numSteps) = optarg;
+            cout << "numSteps = " << optarg << endl;
+            break;
+        case 'q':
+            numQubits = atoi(optarg);
+            cout << "numQubits = " << optarg << endl;
+            break;
+        default:
+            usage();
+        }
+    }
+
+    const int dimension = int( pow( 2, numQubits ) );
+
+    // initial conditions
+    double t = 0.0;
+    State* rho1 = new PureState(dimension);
+    rho1->init();
+    State* rho2 = new MixedState(dimension);
+    rho2->init();
 
     for ( int i = 0; i < numSteps; i++ ){
 
         // take a step
-        y1 += stepRk4( x, y1, stepSize );
-        y2 += stepRk4( x, y2, stepSize );
-        x += stepSize;
+        rho1->step( t, stepSize );
+        rho2->step( t, stepSize );
+        t += stepSize;
 
 #ifdef TELL_ME
-        //printVals( x, y1 );
-        //printVals( x, y2 );
-        //printDiffs( x, y1, y2 );
-        printDeriv( xtmp, x, dytmp, y1, y2 );
+        showProgress(i,numSteps,numQubits);
+        if ( i == 0 || i == numSteps - 1 ) {
+            rho1->print(t);
+            rho2->print(t);
+        }
 
-        // wait between each line
 //        char line[80];
 //        cin.getline(line,80);
-
 #endif //TELL_ME
-
 
     }
 
+    delete rho1;
+    delete rho2;
+
 }
+
