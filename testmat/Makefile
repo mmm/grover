@@ -2,7 +2,7 @@ all: stepper
 
 include ../Makedefs
 
-OBJS = fwrap.o Bures.o\
+OBJS = fwrap.o Bures.o Matrices.o exceptions.o\
        main.o
 
 

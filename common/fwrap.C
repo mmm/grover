@@ -18,6 +18,7 @@ using namespace TNT;
 #define F77_DGEEV   dgeev_
 #define F77_ZHEEV   zheev_
 #define F77_ZHEEVD  zheevd_
+#define F77_DLAMCH  dlamch_
 
 extern "C"
 {
@@ -57,6 +58,9 @@ extern "C"
     void F77_ZHEEVD(cfch_ jobz, cfch_ uplo, cfi_ N, fda_  A, cfi_ lda, 
         fda_ W, fda_ work, cfi_ lwork, fda_ rwork, cfi_ lrwork, fi_ iwork, 
             cfi_ liwork, fi_ info);
+
+    void* F77_DLAMCH(cfch_ ch);
+
 }
 
 // solve linear equations using LU factorization
@@ -203,5 +207,17 @@ Vector<double> Hermitian_eigenvalue_solve( Fortran_Matrix<std::complex<double> >
     if (info != 0) return Vector<double>();
     else
         return eigvals;
+}
+
+void get_eps(void) {
+
+    char ch = 'E';
+    double* ret = F77_DLAMCH(&ch);
+
+//    cout << (double)ret << endl;
+//    cout << (double*)ret << endl;
+
+//    return ret;
+
 }
 

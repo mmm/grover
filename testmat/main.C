@@ -12,6 +12,7 @@
 using namespace TNT;
 
 #include "fwrap.h"
+#include "Matrices.h"
 #include "Bures.h"
 
 void usage( void ) {
@@ -41,6 +42,8 @@ int main( int argc, char* argv[] ) {
             usage();
         }
     }
+
+    get_eps();
 
     const int dimension = int( pow( 2, numQubits ) );
     const complex<double> zero(0.0,0.0);
