@@ -1,5 +1,3 @@
-CXX = $(HOME)/bin/g++
-
 all: stepper
 
 include ../Makedefs
