@@ -73,6 +73,7 @@ extern void printDiffs( ofstream& outFile,
     //outFile << "At time " << time 
     //        << ", the Bures distance between rho1 and rho2 is: " 
     //        << distBures(mat1,mat2) << endl;
+
     outFile << time * 100.0
             << ' '
             << distBures(mat1,mat2) 

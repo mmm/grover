@@ -1,6 +1,5 @@
 //
 #include <string>
-//#include <sstream> 
 #include <fstream> 
 #include <unistd.h> // getopt
 #include <cmath> // pow
@@ -20,13 +19,14 @@ void usage( void ) {
 int main( int argc, char* argv[] ) {
 
     // some setup
-    const int numSteps = 10000; 
+    const int numSteps = 500; 
     //double stepSize = .5 * 1/(double)numSteps;
-    double stepSize = 0.000001;
+    //double stepSize = 0.000001;
+    double stepSize = 0.0001;
     Uniform<double> uniformGenerator;
     //uniformGenerator.seed( static_cast<unsigned int>( time(0) ) );
-    //const double upperBound = 0.001; // biggest noise can get(???)
-    const double upperBound = 0.01; // biggest noise can get(???)
+    const double upperBound = 0.001; // biggest noise can get(???)
+    //const double upperBound = 0.01; // biggest noise can get(???)
 
     int opt,
         numQubits = 4;
@@ -53,9 +53,6 @@ int main( int argc, char* argv[] ) {
     const int dimension = int( pow( 2, numQubits ) );
 
     // outputfile stuff
-//    ostringstream os;
-//    os << "-" << numQubits << "-" << upperBound;
-//    outFile += os.str();
     char fileBase[2 + sizeof(int) + sizeof(double)] = "";
     sprintf( fileBase, "-%d-%f", numQubits, upperBound );
     outFile += fileBase;

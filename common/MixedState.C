@@ -3,7 +3,7 @@
 
 #include "rk4.h"
 #include "MixedState.h"
-#include "Bures.h"
+#include "Matrices.h"
    
 MixedState::~MixedState() {
     for ( int i = 0; i< _dimension; i++ ) {
@@ -35,8 +35,7 @@ void MixedState::init( void ) {
         for ( int i = 1; i< _dimension; i++ ) {
             base = 0.0;
             //base[i-1] = 1.0;
-            //base[i-1] = 1e100;
-            base[i-1] = 1e10;
+            base[i-1] = 1e8;
             _pureStates[i]->init(base,w,zbar,wbar);
         }
 
@@ -69,10 +68,16 @@ Matrix<complex<double> > MixedState::matrix( void ) const {
                             _pureStates[k]->_data[2*n+i] );
         }
         //normalize...
-        states /= sqrt(abs(
+        //states /= sqrt(abs(
+        //            static_cast<valarray<complex<double> > >(states) * 
+        //            static_cast<valarray<complex<double> > >(states.apply(conj))
+        //          ));
+        double norm = sqrt(abs(
                     static_cast<valarray<complex<double> > >(states) * 
                     static_cast<valarray<complex<double> > >(states.apply(conj))
                   ));
+        if ( norm < 1.0e-7 ) throw;
+        states /= norm;
     
         Matrix<complex<double> > tmpMat(_dimension,_dimension,0.0);
         for (int i=0; i<_dimension; i++ ) {
@@ -88,6 +93,7 @@ Matrix<complex<double> > MixedState::matrix( void ) const {
     //renormalize
     //rho /= trace(rho);  // not in TNT!!!
     const double tr = trace(rho);
+    if ( tr < 1.0e-7 ) throw;
     for ( int i=0; i<_dimension; i++ ) {
         for ( int j=0; j<_dimension; j++ ) {
             rho[i][j] /= tr;
@@ -128,6 +134,7 @@ void MixedState::perturb( Uniform<double>& generator, const double upperBound ) 
 
     // keep lambda's normalized...
     // should they be able to be negative?
+    if ( lambdaSum < 1.0e-7 ) throw;
     _lambda /= lambdaSum;
 
 }

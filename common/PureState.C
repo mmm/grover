@@ -72,10 +72,16 @@ Matrix<complex<double> > PureState::matrix( void ) const {
             states[i+1] = complex<double>( _data[i], _data[2*n+i] );
         }
         //normalize...
-        states /= sqrt(abs(
+        //states /= sqrt(abs(
+        //            static_cast<valarray<complex<double> > >(states) * 
+        //            static_cast<valarray<complex<double> > >(states.apply(conj))
+        //          ));
+        double norm = sqrt(abs(
                     static_cast<valarray<complex<double> > >(states) * 
                     static_cast<valarray<complex<double> > >(states.apply(conj))
                   ));
+        if ( norm < 1.0e-7 ) throw;
+        states /= norm;
     
         for (int i=0; i<_dimension; i++ ) {
             for (int j=0; j<_dimension; j++ ) {
