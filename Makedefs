@@ -1,0 +1,32 @@
+
+COMMON = ../common
+VPATH = $(COMMON)/
+
+CFLAGS = -ansi -pedantic -Wall -O -gstabs+ -D_REENTRANT 
+CFLAGS += -ftemplate-depth-30 -funroll-loops -fstrict-aliasing -fno-gcse
+CFLAGS += -I$(COMMON) -I.
+
+# debug specific flags here
+#CFLAGS += -DTELL_ME -DDONTTHREAD
+CFLAGS += -DTELL_ME 
+
+# Fortran flags here
+FFLAGS = 
+
+#LIBS = -lpthread
+#LIBS = -lblitz -lm
+#LIBS = -lodepack -llapack -lblas
+LFLAGS = 
+
+
+# targets
+
+# pattern rules...
+%.o : %.C
+	@echo "---" $@ "---"
+	@g++ $(CFLAGS) -o $@ -c $<
+
+%.o : %.f
+	@echo "---" $@ "---"
+	@g77 $(FFLAGS) -o $@ -c $<
+
