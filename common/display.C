@@ -59,14 +59,24 @@ void showProgress( const int step, const int numSteps, const int numQubits ) {
 
 }
 
-extern void printDiffs( const State *const rho1, const State *const rho2 ) {
+extern void printDiffs( ofstream& outFile,
+                        const double time,
+                        const State *const rho1, 
+                        const State *const rho2 ) {
 
     const Matrix<complex<double> >& mat1 = rho1->matrix();
     const Matrix<complex<double> >& mat2 = rho2->matrix();
 
-//    cout << "rho1 times rho2 = " << mat1*mat2 << endl;
-//    cout << "rho1 plus rho2 = " << mat1+mat2 << endl;
-    cout << "Bures distance between rho1 and rho2 = " 
-         << distBures(mat1,mat2) << endl;
+    //cout << "Bures distance between rho1 and rho2 = " 
+    //     << distBures(mat1,mat2) << endl;
 
+    //outFile << "At time " << time 
+    //        << ", the Bures distance between rho1 and rho2 is: " 
+    //        << distBures(mat1,mat2) << endl;
+    outFile << time * 100.0
+            << ' '
+            << distBures(mat1,mat2) 
+//            << ' '
+//            << log( distBures(mat1,mat2) )
+            << endl;
 }

@@ -17,7 +17,8 @@ void MixedState::init( void ) {
 
     try{
         valarray<double> z(1.0/sqrt(_dimension), _dimension - 1);
-        valarray<double> w(0.0, _dimension - 1);
+        //valarray<double> w(0.0, _dimension - 1);
+        valarray<double> w(-10.0, _dimension - 1);
         valarray<double> zbar(0.0, _dimension - 1);
         valarray<double> wbar(0.0, _dimension - 1);
 
@@ -30,6 +31,7 @@ void MixedState::init( void ) {
         //_pureStates[0]->init(z,w,zbar,wbar);
 
         valarray<double> base(0.0, _dimension - 1);
+        w = valarray<double>(10.0, _dimension-1);
         for ( int i = 1; i< _dimension; i++ ) {
             base = 0.0;
             base[i-1] = 1.0;
@@ -115,9 +117,15 @@ void MixedState::print( const double t ) const {
 
 void MixedState::perturb( Uniform<double>& generator, const double upperBound ) {
 
+    double lambdaSum = 0.0;
     for ( int i=0; i<_dimension; i++ ) {
         _pureStates[i]->perturb( generator, upperBound );
         _lambda[i] += ( generator.random() - 0.5 ) * upperBound;
+        lambdaSum += _lambda[i];
     }
+
+    // keep lambda's normalized...
+    // should they be able to be negative?
+    _lambda /= lambdaSum;
 
 }

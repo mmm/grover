@@ -4,13 +4,14 @@
 #define _MIXEDSTATE_H_
 
 #include <vector>
+#include <valarray>
 
 #include "PureState.h"
 
 class MixedState: public State {
   public:
     MixedState( const int dim ):
-        State(dim), _lambda(dim,0.0) {};
+        State(dim), _lambda(0.0,dim) {};
     virtual ~MixedState();
 
     //accessors
@@ -22,7 +23,7 @@ class MixedState: public State {
     virtual void step( const double time, const double stepSize );
     virtual void perturb( Uniform<double>& generator, const double upperBound );
   private:
-    vector<double> _lambda;
+    valarray<double> _lambda;
     vector<PureState*> _pureStates;
 };
 

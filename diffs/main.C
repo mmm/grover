@@ -1,4 +1,7 @@
 //
+#include <string>
+//#include <sstream> 
+#include <fstream> 
 #include <unistd.h> // getopt
 #include <cmath> // pow
 #include <time.h> // time
@@ -22,15 +25,21 @@ int main( int argc, char* argv[] ) {
     double stepSize = 0.000001;
     Uniform<double> uniformGenerator;
     //uniformGenerator.seed( static_cast<unsigned int>( time(0) ) );
-    const double upperBound = 0.001; // biggest noise can get(???)
+    //const double upperBound = 0.001; // biggest noise can get(???)
+    const double upperBound = 0.01; // biggest noise can get(???)
 
     int opt,
         numQubits = 4;
-    while ( (opt = getopt( argc, argv, "n:q:" )) != -1 ) {
+    string outFile = "stepper.out";
+    while ( (opt = getopt( argc, argv, "n:o:q:" )) != -1 ) {
         switch ( opt ) {
         case 'n':
             //const_cast<int>(numSteps) = optarg;
             cout << "numSteps = " << optarg << endl;
+            break;
+        case 'o':
+            outFile = optarg;
+            cout << "outFile = " << optarg << endl;
             break;
         case 'q':
             numQubits = atoi(optarg);
@@ -43,6 +52,20 @@ int main( int argc, char* argv[] ) {
 
     const int dimension = int( pow( 2, numQubits ) );
 
+    // outputfile stuff
+//    ostringstream os;
+//    os << "-" << numQubits << "-" << upperBound;
+//    outFile += os.str();
+    char fileBase[2 + sizeof(int) + sizeof(double)] = "";
+    sprintf( fileBase, "-%d-%f", numQubits, upperBound );
+    outFile += fileBase;
+    cout << "outFile = " << outFile << endl;
+    ofstream outFileStream( outFile.c_str() );
+    if ( !outFileStream ) {
+        cerr << "Oops!" << endl;
+        exit(1);
+    }
+
     // initial conditions
     double t = 0.0;
     State* rho1 = new PureState(dimension);
@@ -50,31 +73,41 @@ int main( int argc, char* argv[] ) {
     State* rho2 = new MixedState(dimension);
     rho2->init();
 
+#ifdef TELL_ME
+    rho1->print(t);
+    rho2->print(t);
+    printDiffs(outFileStream,t,rho1,rho2);
+#endif //TELL_ME
+
+    int aHundredth = numSteps/100;
     for ( int i = 0; i < numSteps; i++ ){
 
-        // take a step
+
         rho1->step( t, stepSize );
-//        rho1->perturb( uniformGenerator, upperBound );
         rho2->step( t, stepSize );
-//        rho2->perturb( uniformGenerator, upperBound );
+        rho2->perturb( uniformGenerator, upperBound );
         t += stepSize;
 
 #ifdef TELL_ME
         showProgress(i,numSteps,numQubits);
-        if ( i == 0 || i == numSteps - 1 ) {
+        if ( 0 == i%aHundredth ) {
+            printDiffs(outFileStream,t,rho1,rho2);
+        }
+        if ( i == numSteps - 1 ) {
             rho1->print(t);
             rho2->print(t);
-            printDiffs(rho1,rho2);
+            printDiffs(outFileStream,t,rho1,rho2);
         }
-
-        char line[80];
-        cin.getline(line,80);
+//        char line[80];
+//        cin.getline(line,80);
 #endif //TELL_ME
 
     }
 
     delete rho1;
     delete rho2;
+
+    outFileStream.close();
 
 }
 
