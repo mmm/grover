@@ -28,7 +28,7 @@ int main() {
          << endl;
 
     // some setup
-    const int numSteps = 10000; 
+    const int numSteps = 1000000; 
     //double stepSize = 1/(double)numSteps;
     double stepSize = 0.001;
 
@@ -47,10 +47,12 @@ int main() {
 //        if ( 0 == i%(numSteps/10) ) { 
 //            compareWithSoln( x, y );
 //        }
-        printVals( x, y );
+//        printVals( x, y );
         
-        char line[80];
-        cin.getline(line,80);
+//        char line[80];
+//        cin.getline(line,80);
+
+        showProgress( i, numSteps );
 #endif //TELL_ME
 
     }
