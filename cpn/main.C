@@ -39,14 +39,16 @@ int main() {
 //        if ( 0 == i%(numSteps/10) ) { 
 //            compareWithSoln( x, y );
 //        }
-        printVals( x, y );
+//        printVals( x, y );
 
 //        char line[80];
 //        cin.getline(line,80);
 
+        showProgress(i,numSteps);
 #endif //TELL_ME
 
 
     }
 
 }
+
