@@ -180,7 +180,8 @@ int eigenvalue_solve(const Fortran_Matrix<double> &A,
 // solve complex Hermitian eigenvalues and eigenvectors
 //
 // returns eigVects in A
-Vector<double> Hermitian_eigenvalue_solve( Fortran_Matrix<std::complex<double> >& A)
+Vector<double> 
+Hermitian_eigenvalue_solve( Fortran_Matrix<std::complex<double> >& A)
 {
 
     char jobz = 'V';

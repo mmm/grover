@@ -2,8 +2,8 @@
 #define _MYVALARRAY_H_
 
 #include <valarray>
-//extern double std::operator*( const valarray<double>& a, const valarray<double>& b );
-inline double std::operator*( const valarray<double>& a, const valarray<double>& b ) {
+inline double 
+std::operator*( const valarray<double>& a, const valarray<double>& b ) {
 
     if ( a.size() != b.size() ) throw;
 
@@ -16,9 +16,9 @@ inline double std::operator*( const valarray<double>& a, const valarray<double>&
 }
 
 #include <complex>
-//extern double std::operator*( const valarray<double>& a, const valarray<double>& b );
-inline complex<double> std::operator*( const valarray<complex<double> >& a, 
-                              const valarray<complex<double> >& b ) {
+inline complex<double> 
+std::operator*( const valarray<complex<double> >& a, 
+                const valarray<complex<double> >& b ) {
 
     if ( a.size() != b.size() ) throw;
 
@@ -29,9 +29,6 @@ inline complex<double> std::operator*( const valarray<complex<double> >& a,
 
     return sum;
 }
-
-//#include <complex>
-//extern double std::operator*( const valarray<complex<double> >& a, const valarray< complex<double> >& b );
 
 #endif // _MYVALARRAY_H_
 

@@ -8,11 +8,9 @@
 #include <tnt/tnt.h>
 #include <tnt/cmat.h>
 #include <tnt/fmat.h>
-
 using namespace TNT;
 
 #include <random/uniform.h>
-
 using namespace ranlib;
 
 class State {
@@ -28,10 +26,10 @@ class State {
     //mutators
     virtual void init( void ) = 0;
     virtual void step( const double time, const double stepSize ) = 0;
-    virtual void perturb( Uniform<double>& generator, const double upperBound ) = 0;
+    virtual void perturb( Uniform<double>& generator, 
+                          const double upperBound ) = 0;
   protected:
     int _dimension;// of Hilbert space (_not_ projective Hilbert space!)
 };
-
 
 #endif //_STATE_H_

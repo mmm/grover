@@ -8,8 +8,8 @@ my @steps = ( { "numSteps" => 1000, "stepSize" => 0.00005 },
 
 my @noiseBounds = ( 0.001, 0.0025, 0.005, 0.0075, 0.01 );
 
-#for my $numQubits (8..12) {
-for my $numQubits (2) {
+for my $numQubits (8..12) {
+#for my $numQubits (2) {
     print "number of qubits is ",$numQubits,"\n";
     for my $bound (@noiseBounds) {
         print "\tnoise bound is ",$bound,"\n";
