@@ -8,6 +8,7 @@
 #include <unistd.h>
 
 #include "Bures.h"
+#include "Matrices.h"
 #include "display.h"
 
 void showProgress( const int step, const int numSteps, const int numQubits ) {
@@ -77,7 +78,7 @@ extern void printDiffs( ofstream& outFile,
     outFile << time * 100.0
             << ' '
             << distBures(mat1,mat2) 
-//            << ' '
-//            << log( distBures(mat1,mat2) )
+            << ' '
+            << eigVals(mat2)
             << endl;
 }

@@ -26,8 +26,8 @@ int main( int argc, char* argv[] ) {
     Uniform<double> uniformGenerator;
     //uniformGenerator.seed( static_cast<unsigned int>( time(0) ) );
     //const double upperBound = 0.001; // biggest noise can get(???)
-    //const double upperBound = 0.01; // biggest noise can get(???)
-    const double upperBound = 0.0001; // biggest noise can get(???)
+    const double upperBound = 0.01; // biggest noise can get(???)
+    //const double upperBound = 0.0001; // biggest noise can get(???)
 
     int opt,
         numQubits = 4;

@@ -119,3 +119,17 @@ const bool has_a_nan( const Matrix<complex<double> >& mat ) {
     return false;
 
 }
+
+const Vector<double> eigVals( const Matrix<complex<double> >& mat ) {
+
+    if( mat.num_rows() != mat.num_cols() ) throw("Matrices not square");
+
+    Fortran_Matrix<complex<double> > tmpMat = toFortranMatrix( mat );
+
+    Vector<double> eigVals( mat.num_rows() );
+    Fortran_Matrix<complex<double> > eigVects = nan_to_zero(tmpMat);
+    eigVals = Hermitian_eigenvalue_solve( eigVects );
+
+    return eigVals;
+
+}
