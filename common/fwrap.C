@@ -1,25 +1,14 @@
 // fwrap.C
 // Fortran Wrappers
+#include <iostream>
 #include <complex>
-
-////#include <g2c.h>
-//namespace MYFORT {
-//struct complex { 
-//    float r, i; 
-//};
-//struct doublecomplex { 
-//    double r, i; 
-//};
-//}
-//typedef MYFORT::doublecomplex DC;
-
 
 #include <tnt/tnt.h>
 #include <tnt/vec.h>
 #include <tnt/fmat.h>
 
-//#include <tnt/fortran.h>
-#include "fortran.h"
+#include <tnt/fortran.h>
+//#include "fortran.h"
 
 using namespace TNT;
 
@@ -59,8 +48,8 @@ extern "C"
     //
 //    void F77_ZHEEV( cfch_ jobz, cfch_ uplo, cfi_ N, fda_  A, cfi_ lda, 
 //        fda_ W, fda_ work, cfi_ lwork, fda_ rwork, fi_ info);
-    void F77_ZHEEV( cfch_ jobz, cfch_ uplo, cfi_ N, fza_  A, cfi_ lda, 
-        fda_ W, fza_ work, cfi_ lwork, fda_ rwork, fi_ info);
+    void F77_ZHEEV( cfch_ jobz, cfch_ uplo, cfi_ N, fda_  A, cfi_ lda, 
+        fda_ W, fda_ work, cfi_ lwork, fda_ rwork, fi_ info);
 
     // solve complex Hermitian eigenvalues and eigenvectors
     // with divide and conquer
@@ -186,7 +175,8 @@ int eigenvalue_solve(const Fortran_Matrix<double> &A,
 
 // solve complex Hermitian eigenvalues and eigenvectors
 //
-Vector<double> Hermitian_eigenvalue_solve(const Fortran_Matrix<std::complex<double> >& A)
+// returns eigVects in A
+Vector<double> Hermitian_eigenvalue_solve( Fortran_Matrix<std::complex<double> >& A)
 {
 
     char jobz = 'V';
@@ -196,19 +186,16 @@ Vector<double> Hermitian_eigenvalue_solve(const Fortran_Matrix<std::complex<doub
     assert(N == A.num_cols());
 
     Vector<double> eigvals(N);
-    //Fortran_integer worksize = 3*N;
-    Fortran_integer worksize = 6*N;
-    Vector<Fortran_doublecomplex> work(worksize);
+    Fortran_integer worksize = 3*N;
+    Vector<complex<double> > work(worksize);
     Fortran_integer rworksize = 3*N;
     Vector<double> rwork(rworksize);
     Fortran_integer info = 0;
-    //Fortran_Matrix<double> Tmp = A;
-    Fortran_doublecomplex zero;
-    Fortran_Matrix<Fortran_doublecomplex> Tmp(A.num_rows(), A.num_rows(), zero);
 
 //    void F77_DSYEV( cfch_ jobz, cfch_ uplo, cfi_ N, fda_  A, cfi_ lda, 
 //        fda_ W, fda_ work, cfi_ lwork, fda_ rwork, fi_ info);
-    F77_ZHEEV(&jobz, &uplo, &N, &Tmp(1,1), &N, eigvals.begin(), work.begin(),
+    F77_ZHEEV(&jobz, &uplo, &N, (fda_)(&A(1,1)), 
+              &N, eigvals.begin(), (fda_)(work.begin()),
               &worksize, rwork.begin(), &info);
 
     if (info != 0) return Vector<double>();
