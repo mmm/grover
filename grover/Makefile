@@ -2,8 +2,8 @@ all: stepper
 
 include ../Makedefs
 
-OBJS = Matrices.o fwrap.o exceptions.o\
-       main.o
+OBJS = Matrices.o fwrap.o exceptions.o Bures.o\
+       display.o main.o
 
 
 # targets

@@ -5,69 +5,79 @@
 #include <cmath> // pow
 #include <time.h> // time
 
-#include "display.h"
 
 #include <random/uniform.h>
 using namespace ranlib;
 
 #include "Matrices.h"
-
+#include "display.h"
 
 void usage( void ) {
-    cout << "Usage: stepper [-q num-qubits] [-n num-steps]" 
-         << endl;
+    cout << "Usage: stepper [options]" << endl
+         << "Where options are:" << endl
+         << "-d prob-datafile " << endl
+         << "-n num-steps"  << endl
+         << "-o bures-datafile" << endl
+         << "-q num-qubits"  << endl
+         << "-u noise-threshold" << endl;
     exit(1);
 }
 
 int main( int argc, char* argv[] ) {
 
-    // some setup
-
-    const int numSteps = 10; 
-
-
-    Uniform<double> uniformGenerator;
-    //uniformGenerator.seed( static_cast<unsigned int>( time(0) ) );
-
-    //const double upperBound = 0.0001; // biggest noise can get(???)
-    //const double upperBound = 0.001; // biggest noise can get(???)
-    //const double upperBound = 0.01; // biggest noise can get(???)
-    const double upperBound = 0.0; // biggest noise can get(???)
-
-    int opt,
-        numQubits = 4;
-    string outFile = "output/stepper.out";
-    while ( (opt = getopt( argc, argv, "n:o:q:" )) != -1 ) {
+    int numQubits = 4;
+    int numSteps = 10; 
+    string outFileA = "output/Bures.out";
+    string outFileB = "output/targetCoeff.out";
+    double upperBound = 0.005; // biggest noise can get... kinda
+                               // works between 0.001 and 0.01
+    int opt = 0;
+    while ( (opt = getopt( argc, argv, "d:n:o:q:u:" )) != -1 ) {
         switch ( opt ) {
+        case 'd':
+            outFileB = optarg;
+            break;
         case 'n':
-            //const_cast<int>(numSteps) = optarg;
-            cout << "numSteps = " << optarg << endl;
+            numSteps = atoi(optarg);
             break;
         case 'o':
-            outFile = optarg;
-            cout << "outFile = " << optarg << endl;
+            outFileA = optarg;
             break;
         case 'q':
             numQubits = atoi(optarg);
-            cout << "numQubits = " << optarg << endl;
+            break;
+        case 'u':
+            upperBound = atof(optarg);
             break;
         default:
             usage();
         }
     }
 
+    Uniform<double> uniformGenerator;
+    //uniformGenerator.seed( static_cast<unsigned int>( time(0) ) );
+
     const int dimension = int( pow( 2, numQubits ) );
 
     // outputfile stuff
-    char fileBase[2 + sizeof(int) + sizeof(double)] = "";
-    sprintf( fileBase, "-%d-n%f", numQubits, upperBound );
-    outFile += fileBase;
-    cout << "outFile = " << outFile << endl;
-    ofstream outFileStream( outFile.c_str() );
-    if ( !outFileStream ) {
+    char fileAppend[2 + sizeof(int) + sizeof(double)] = "";
+    sprintf( fileAppend, "-%d-n%f", numQubits, upperBound );
+    outFileA += fileAppend;
+    outFileB += fileAppend;
+    ofstream outFileStreamA( outFileA.c_str() );
+    ofstream outFileStreamB( outFileB.c_str() );
+    if ( !outFileStreamA || !outFileStreamB ) {
         cerr << "Oops!" << endl;
         exit(1);
     }
+
+    cout << "Bures distance -v- time to " 
+         <<  outFileA << endl;
+    cout << "target state prob -v- time to " 
+         <<  outFileB << endl;
+    cout << "numQubits = " << numQubits << endl;
+    cout << "numSteps = " << numSteps << endl;
+    cout << "upper bound = " << upperBound << endl;
 
 
     // initial conditions
@@ -92,6 +102,8 @@ int main( int argc, char* argv[] ) {
 
     U_grover = U_grover * U_phase;
 
+    printDiffs(outFileStreamA,0,rho1,rho2);
+    printLeadingEVals(outFileStreamB,0,rho1,rho2);
 
     try{
         for ( int i = 0; i < numSteps; i++ ){
@@ -100,18 +112,20 @@ int main( int argc, char* argv[] ) {
             rho2 = U_grover * rho2 * dagger( U_grover ) 
                 + randomMatrix(uniformGenerator, dimension, upperBound);
 
-            //rho /= trace(rho);
             double tr = trace(rho2);
-            for ( int i = 0; i<dimension; i++ ) {
+            for ( int k = 0; i<dimension; i++ ) {
                 for ( int j = 0; j<dimension; j++ ) {
-                    rho2[i][j] /= tr;
+                    rho2[k][j] /= tr;
                 }
             }
 
-            cout << rho1[0][0] << endl;
+            printDiffs(outFileStreamA,i+1,rho1,rho2);
+            printLeadingEVals(outFileStreamB,i+1,rho1,rho2);
+            showProgress(i,numSteps,numQubits);
 
-//            char line[80];
-//            cin.getline(line,80);
+            //char line[80];
+            //cin.getline(line,80);
+
         }
 
     }
@@ -119,7 +133,8 @@ int main( int argc, char* argv[] ) {
         cerr << "exception " << ex.what() << endl;
     }
 
-    outFileStream.close();
+    outFileStreamA.close();
+    outFileStreamB.close();
 
 }
 

@@ -11,28 +11,28 @@
 
 
 void usage( void ) {
-    cout << "Usage: stepper [-d prob-datafile] [-n num-steps] [-o bures-datafile] "
-         << "[-q num-qubits] [-s step-size] [-u noise-threshold] " 
-         << endl;
+    cout << "Usage: stepper [options]" << endl
+         << "Where options are:" << endl
+         << "-d prob-datafile " << endl
+         << "-n num-steps"  << endl
+         << "-o bures-datafile" << endl
+         << "-q num-qubits"  << endl
+         << "-s step-size"  << endl
+         << "-u noise-threshold" << endl;
     exit(1);
 }
 
 int main( int argc, char* argv[] ) {
 
 
+    int numQubits = 4;
     int numSteps = 500; 
     double stepSize = 0.0001;
-
-    //double upperBound = 0.001; // biggest noise can get(???)
-    //double upperBound = 0.0025; // biggest noise can get(???)
-    double upperBound = 0.005; // biggest noise can get(???)
-    //double upperBound = 0.0075; // biggest noise can get(???)
-    //double upperBound = 0.01; // biggest noise can get(???)
-
-    int opt = 0;
-    int numQubits = 4;
     string outFileA = "output/Bures.out";
     string outFileB = "output/targetCoeff.out";
+    double upperBound = 0.005; // biggest noise can get... kinda
+                               // works between 0.001 and 0.01
+    int opt = 0;
     while ( (opt = getopt( argc, argv, "d:n:o:q:s:u:" )) != -1 ) {
         switch ( opt ) {
         case 'd':
