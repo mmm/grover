@@ -11,5 +11,6 @@ while(<>) {
 #    print "max is ",$max,"\n";
 }
 
-print "max is ",$max,"\n";
+#print "max is ",$max,"\n";
+print " ",$max,"\n";
 
