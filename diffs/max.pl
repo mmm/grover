@@ -7,7 +7,9 @@ $max=0.0;
 while(<>) { 
     @row = split; 
     $max= ($row[2]>$max)? $row[2]: $max;
-    print $row[2],"\n"; 
-    print "max is ",$max,"\n";
+#    print $row[2],"\n"; 
+#    print "max is ",$max,"\n";
 }
+
+print "max is ",$max,"\n";
 
