@@ -19,68 +19,41 @@ valarray_double dydx( const double x, const valarray_double& y ) {
     try {
         // slices would be easier, but oh well...
         valarray_double z(0.0, n);
-        valarray_double w(0.0, n);
+        valarray_double p(0.0, n);
         valarray_double zbar(0.0, n);
-        valarray_double wbar(0.0, n);
+        valarray_double pbar(0.0, n);
         for( int i = 0; i<n; i++ ) {
             z[i] = y[i];
-            w[i] = y[n+i];
+            p[i] = y[n+i];
             zbar[i] = y[2*n+i];
-            wbar[i] = y[3*n+i];
+            pbar[i] = y[3*n+i];
         }
         
-        valarray_double zdot = w;
-        valarray_double wdot(0.0, n);
-        //wdot^i = g^{ik} ( g_{js,{\bar k}}{\bar w}^s 
-        //                  + g_{jk,s}w^s
-        //                  - g_{jk,{\bar s}}{\bar w}^s ) w^j
+        valarray_double zdot(0.0, n);
         for( int i = 0; i<n; i++ ) {
-            wdot[i] = w[i] * ( z*wbar + zbar*w )/(1 + z*zbar)
-                     + 
-                      zbar[i] * ( 
-                          (1 + z*zbar)*(w*w) - 2*(z*w)*( z*wbar + zbar*w ) 
-                      )
-                      /((1 + z*zbar)*(1 + z*zbar))
-                     +
-                      z[i] * ( 
-                          2*(z*w)*(zbar*wbar)*(1 + z*zbar) -
-                          2*(zbar*zbar)*(z*w)*( z*wbar + zbar*w ) +
-                          (1 + z*zbar)*(zbar*w)*( z*wbar + zbar*w ) +
-                          (1 + z*zbar)*(zbar*zbar)*(w*w) -
-                          (1 + z*zbar)*(z*zbar)*(w*wbar) -
-                          (1 + z*zbar)*(w*w)
-                      )
-                      /((1 + z*zbar)*(1 + z*zbar));
+            zdot[i] = ( 1 + z*zbar ) * ( pbar[i] + (pbar*zbar)*z[i] ); 
         }
-        valarray_double zbardot = wbar;
-        valarray_double wbardot(0.0, n);
-        //wbardot^i = g^{ik} ( g_{js,k}w^s 
-        //                  - g_{jk,s}w^s
-        //                  - g_{jk,{\bar s}}{\bar w}^s ) w^j
+        valarray_double pdot(0.0, n);
         for( int i = 0; i<n; i++ ) {
-            wbardot[i] =  wbar[i] * ( z*wbar + zbar*w )/(1 + z*zbar)
-                     + 
-                      zbar[i] * ( 
-                          2*(z*w)*(zbar*wbar) - (1 + z*zbar)*(w*wbar) 
-                      )
-                      /((1 + z*zbar)*(1 + z*zbar))
-                     +
-                      z[i] * ( 
-                          (1 + z*zbar)*(1 + z*zbar)*(wbar*wbar) +
-                          (zbar*wbar)*(
-                              2*(zbar*zbar)*(z*w) - 
-                              (1 + z*zbar)*( z*wbar + zbar*w )
-                          )
-                      )
-                      /((1 + z*zbar)*(1 + z*zbar));
+            pdot[i] = 2 * zbar[i] * ( p*pbar + (p*z)*(pbar*zbar) ) +
+                ( 1 + z*zbar ) * ( (pbar*zbar)*z[i] );
+        }
+        valarray_double zbardot(0.0, n);
+        for( int i = 0; i<n; i++ ) {
+            zbardot[i] = ( 1 + z*zbar ) * ( p[i] + (p*z)*zbar[i] ); 
+        }
+        valarray_double pbardot(0.0, n);
+        for( int i = 0; i<n; i++ ) {
+            pbardot[i] = 2 * z[i] * ( p*pbar + (p*z)*(pbar*zbar) ) +
+                ( 1 + z*zbar ) * ( (p*z)*zbar[i] );
         }
 
         // recombine into tmpdydx... again, slices would be easier
         for( int i = 0; i<n; i++ ) {
             tmpdydx[i] = zdot[i];
-            tmpdydx[n+i] = wdot[i];
+            tmpdydx[n+i] = pdot[i];
             tmpdydx[2*n+i] = zbardot[i];
-            tmpdydx[3*n+i] = wbardot[i];
+            tmpdydx[3*n+i] = pbardot[i];
         }
 
     }

@@ -41,8 +41,8 @@ int main() {
 //        }
         printVals( x, y );
 
-        char line[80];
-        cin.getline(line,80);
+//        char line[80];
+//        cin.getline(line,80);
 
 #endif //TELL_ME
 

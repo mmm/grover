@@ -29,10 +29,18 @@ void printVals( const double x, const valarray_double& y ) {
     //cout << "x= " << x << "\t y= " << y[0] << "\t ";
     //cout << x << " " << y[0] << " " << y[1] << endl;
     cout << x 
-         << " z= " << y[0] 
-         << " zbar= " << y[2] 
-         << " w= " << y[1] 
-         << " wbar= " << y[3] 
+        //<< " z= " 
+         << " " 
+         << y[0] 
+         << " " 
+        //<< " zbar= " 
+         << y[2] 
+         << " " 
+        // << " w= " 
+         << y[1] 
+         << " " 
+        //<< " wbar= " 
+         << y[3] 
          << endl;
     //cout << y[0] << " " << y[1] << endl;
 #endif //TELL_ME
