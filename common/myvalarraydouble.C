@@ -127,3 +127,21 @@ valarray_double std::operator/( const valarray_double& v, const double& d ) {
     valarray_double r = v;
     return r /= d;
 }
+
+
+double std::operator*( const valarray_double& a, const valarray_double& b ) {
+
+    if ( a.size() != b.size() ) throw;
+
+    vector<double>::const_iterator ci_a = a._data->begin();
+    vector<double>::const_iterator ci_b = b._data->begin();
+    double sum = 0.0;
+    while( ci_a != a._data->end() && ci_b != b._data->end() ) {
+        sum += (*ci_a) * (*ci_b) ;
+        ++ci_a;
+        ++ci_b;
+    }
+
+    return sum;
+
+}

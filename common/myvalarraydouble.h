@@ -26,6 +26,9 @@ class valarray_double {
 
     valarray_double& operator/=(const double& d);
 
+    // make up and inner product...
+    friend double std::operator*( const valarray_double& a, const valarray_double& b );
+
   private:
     vector<double>* _data;
 };

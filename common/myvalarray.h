@@ -14,8 +14,8 @@ class valarray {
     ~valarray();
     valarray& operator=(const valarray& v);
 
-    T& operator[](const unsigned int n);
-    const T& operator[](const unsigned int n) const;
+    T& operator[](const size_t n);
+    const T& operator[](const size_t n) const;
 
     const size_t size() const { return _data->size(); };
 
