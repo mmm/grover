@@ -13,7 +13,7 @@ stepper: $(OBJS)
 
 clean:
 	@echo "cleaning up.."
-	rm -f stepper core
+	rm -f stepper core stepper.exe
 
 clobber: clean
 	rm -f *.o *~ $(COMMON)/*.o $(COMMON)/*~ *.out
