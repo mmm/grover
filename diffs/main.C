@@ -85,7 +85,7 @@ int main( int argc, char* argv[] ) {
 
         rho1->step( t, stepSize );
         rho2->step( t, stepSize );
-        rho2->perturb( uniformGenerator, upperBound );
+//        rho2->perturb( uniformGenerator, upperBound );
         t += stepSize;
 
 #ifdef TELL_ME

@@ -186,9 +186,11 @@ Vector<double> Hermitian_eigenvalue_solve( Fortran_Matrix<std::complex<double> >
     assert(N == A.num_cols());
 
     Vector<double> eigvals(N);
-    Fortran_integer worksize = 3*N;
+    //Fortran_integer worksize = 3*N;
+    Fortran_integer worksize = 6*N;
     Vector<complex<double> > work(worksize);
-    Fortran_integer rworksize = 3*N;
+    //Fortran_integer rworksize = 3*N;
+    Fortran_integer rworksize = 6*N;
     Vector<double> rwork(rworksize);
     Fortran_integer info = 0;
 

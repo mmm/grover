@@ -13,6 +13,8 @@ using namespace TNT;
 
 extern Fortran_Matrix<complex<double> > dagger( 
     const Fortran_Matrix<complex<double> >& mat );
+//extern Fortran_Matrix<complex<double> > zero_out( 
+//    const Fortran_Matrix<complex<double> >& mat );
 
 const Matrix<complex<double> > sqrt( const Matrix<complex<double> >& mat );
 

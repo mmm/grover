@@ -34,7 +34,9 @@ void MixedState::init( void ) {
         w = valarray<double>(10.0, _dimension-1);
         for ( int i = 1; i< _dimension; i++ ) {
             base = 0.0;
-            base[i-1] = 1.0;
+            //base[i-1] = 1.0;
+            //base[i-1] = 1e100;
+            base[i-1] = 1e10;
             _pureStates[i]->init(base,w,zbar,wbar);
         }
 

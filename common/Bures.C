@@ -1,5 +1,6 @@
 // Bures.C
 //
+#include <iostream>
 #include <tnt/fmat.h>
 
 #include "fwrap.h"
@@ -16,6 +17,24 @@ const double trace( const Matrix<complex<double> >& mat ) {
     }
 
     return sum;
+
+}
+
+Fortran_Matrix<complex<double> > zero_out( const Fortran_Matrix<complex<double> >& mat ) {
+
+    Fortran_Matrix<complex<double> > tmp = mat;
+    for(int i=1; i<=mat.num_rows(); i++) {
+        for(int j=1; j<=mat.num_rows(); j++) {
+            tmp(i,j) = complex<double>(
+                //( mat(i,j).real() < 1e-20 )? 0.0 : mat(i,j).real(),
+                //( mat(i,j).imag() < 1e-20 )? 0.0 : mat(i,j).imag()
+                ( isnan( mat(i,j).real() ) )? 0.0 : mat(i,j).real(),
+                ( isnan( mat(i,j).imag() ) )? 0.0 : mat(i,j).imag()
+                );
+        }
+    }
+
+    return tmp;
 
 }
 
@@ -74,7 +93,7 @@ const Matrix<complex<double> > sqrt( const Matrix<complex<double> >& mat ) {
     Fortran_Matrix<complex<double> > tmpMat = toFortranMatrix( mat );
 
     Vector<double> eigVals( mat.num_rows() );
-    Fortran_Matrix<complex<double> > eigVects = tmpMat;
+    Fortran_Matrix<complex<double> > eigVects = zero_out(tmpMat);
     eigVals = Hermitian_eigenvalue_solve( eigVects );
 
     Fortran_Matrix<complex<double> > tmpMat2 = dagger(eigVects)*tmpMat*eigVects;
@@ -91,6 +110,10 @@ const Matrix<complex<double> > sqrt( const Matrix<complex<double> >& mat ) {
 
 extern double distBures( const Matrix<complex<double> >& mat1, 
                          const Matrix<complex<double> >& mat2 ) {
+
+    cout << "Bures distance called.. between " << mat1 << endl;
+    cout << "and " << mat2 << endl;
+
 
     Matrix<complex<double> > tmp1 = sqrt( mat1 );
     Matrix<complex<double> > tmp2 = sqrt( tmp1 * mat2 * tmp1 );
