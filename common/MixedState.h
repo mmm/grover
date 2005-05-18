@@ -23,8 +23,8 @@ class MixedState: public State {
     virtual void step( const double time, const double stepSize );
     virtual void perturb( Uniform<double>& generator, const double upperBound );
   private:
-    valarray<double> _lambda;
-    vector<PureState*> _pureStates;
+    std::valarray<double> _lambda;
+    std::vector<PureState*> _pureStates;
 };
 
 

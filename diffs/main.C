@@ -5,6 +5,8 @@
 #include <unistd.h> // getopt
 #include <cmath> // pow
 #include <time.h> // time
+#include <complex>
+using std::complex;
 
 #include "PureState.h"
 #include "MixedState.h"
@@ -130,7 +132,7 @@ int main( int argc, char* argv[] ) {
         }//end of for
 
     }//end of try
-    catch( const exception& ex ) {
+    catch( const std::exception& ex ) {
         std::cerr << "exception " << ex.what() << std::endl;
     }
 

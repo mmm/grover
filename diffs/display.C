@@ -68,12 +68,11 @@ extern void printDiffs( ofstream& outFile,
                         const State *const rho1, 
                         const State *const rho2 ) {
 
-    const Matrix<complex<double> >& mat1 = rho1->matrix();
     const Matrix<complex<double> >& mat2 = rho2->matrix();
     // errbnds on Bures?
     outFile << time * 100.0
             << ' '
-            << distBures(mat1,mat2) 
+            << distBures(*rho1,*rho2) 
             << ' ';
     
     const Vector<double> eVals = eigVals(mat2);

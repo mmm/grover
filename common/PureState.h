@@ -17,15 +17,15 @@ class PureState: public State {
 
     //mutators
     virtual void init( void );
-    virtual void init( const valarray<double>& z_i,
-                       const valarray<double>& w_i,
-                       const valarray<double>& zbar_i,
-                       const valarray<double>& wbar_i );
+    virtual void init( const std::valarray<double>& z_i,
+                       const std::valarray<double>& w_i,
+                       const std::valarray<double>& zbar_i,
+                       const std::valarray<double>& wbar_i );
     virtual void step( const double time, const double stepSize );
     virtual void perturb( Uniform<double>& generator, const double upperBound );
 
 //private:
-    valarray<double>  _data;
+    std::valarray<double>  _data;
 };
 
 #endif //_PURESTATE_H_
