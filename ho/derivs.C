@@ -1,6 +1,8 @@
 #define _POSIX_SOURCE 1
 // derivs.C
 //
+#include <iostream>
+
 #include <stdexcept>
 #include "myvalarray.h"
 
@@ -19,8 +21,8 @@ valarray<double> dydx( const double x, const valarray<double>& y ) {
         //    tmpdydx[i] = ( 1.0 - x + 4.0 * y[i] );
         //}
     }
-    catch(out_of_range) {
-        cerr << "oops" << endl;
+    catch(std::out_of_range) {
+        std::cerr << "oops" << std::endl;
         exit(1);
     }
 

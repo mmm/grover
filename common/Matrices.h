@@ -4,18 +4,19 @@
 #define _MATRICES_H_
 
 #include <complex>
+using std::complex;
 
 #include <tnt/tnt.h>
-#include <tnt/cmat.h>
-#include <tnt/fmat.h>
+#include <tnt/tnt_cmat.h>
+#include <tnt/tnt_fortran_array2d.h>
 
 using namespace TNT;
 
 #include <random/uniform.h>
 using namespace ranlib;
 
-extern Fortran_Matrix<complex<double> > 
-           dagger( const Fortran_Matrix<complex<double> >& mat );
+extern Fortran_Array2D<complex<double> > 
+           dagger( const Fortran_Array2D<complex<double> >& mat );
 
 extern Matrix<complex<double> > 
            dagger( const Matrix<complex<double> >& mat );

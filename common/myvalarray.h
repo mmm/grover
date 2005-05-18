@@ -3,6 +3,8 @@
 
 #include <valarray>
 
+using std::valarray;
+
 namespace std {
 inline double 
 std::operator*( const valarray<double>& a, const valarray<double>& b ) {

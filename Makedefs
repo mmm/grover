@@ -7,7 +7,7 @@ VPATH = $(COMMON)/
 #CFLAGS = -ansi -pedantic -Wall -O -gstabs+ -D_REENTRANT -D_GNU_SOURCE
 CFLAGS = -pedantic -Wall -O -gstabs+ -D_REENTRANT -D_GNU_SOURCE
 CFLAGS += -ftemplate-depth-17 -funroll-loops -fstrict-aliasing #-fno-gcse
-CFLAGS += -I. -I$(COMMON) -I../include
+CFLAGS += -I. -I$(COMMON) -I../include 
 #CFLAGS += -pg
 
 # debug specific flags here

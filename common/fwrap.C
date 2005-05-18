@@ -4,10 +4,10 @@
 #include <complex>
 
 #include <tnt/tnt.h>
-#include <tnt/vec.h>
-#include <tnt/fmat.h>
+#include <tnt/tnt_vec.h>
+#include <tnt/tnt_fortran_array2d.h>
 
-#include <tnt/fortran.h>
+//#include <tnt/fortran.h>
 //#include "fortran.h"
 
 using namespace TNT;
@@ -67,14 +67,14 @@ extern "C"
 
 using namespace TNT;
 
-Vector<double> Lapack_LU_linear_solve(const Fortran_Matrix<double> &A,
+Vector<double> Lapack_LU_linear_solve(const Fortran_Array2D<double> &A,
     const Vector<double> &b)
 {
     const Fortran_integer one=1;
     Subscript M=A.num_rows();
     Subscript N=A.num_cols();
 
-    Fortran_Matrix<double> Tmp(A);
+    Fortran_Array2D<double> Tmp(A);
     Vector<double> x(b);
     Vector<Fortran_integer> index(M);
     Fortran_integer info = 0;
@@ -88,14 +88,14 @@ Vector<double> Lapack_LU_linear_solve(const Fortran_Matrix<double> &A,
 
 // solve linear least squares problem using QR factorization
 //
-Vector<double> Lapack_LLS_QR_linear_solve(const Fortran_Matrix<double> &A,
+Vector<double> Lapack_LLS_QR_linear_solve(const Fortran_Array2D<double> &A,
     const Vector<double> &b)
 {
     const Fortran_integer one=1;
     Subscript M=A.num_rows();
     Subscript N=A.num_cols();
 
-    Fortran_Matrix<double> Tmp(A);
+    Fortran_Array2D<double> Tmp(A);
     Vector<double> x(b);
     Fortran_integer info = 0;
 
@@ -115,7 +115,7 @@ Vector<double> Lapack_LLS_QR_linear_solve(const Fortran_Matrix<double> &A,
 
 // solve symmetric eigenvalue problem (eigenvalues only)
 //
-Vector<double> Upper_symmetric_eigenvalue_solve(const Fortran_Matrix<double> &A)
+Vector<double> Upper_symmetric_eigenvalue_solve(const Fortran_Array2D<double> &A)
 {
     char jobz = 'N';
     char uplo = 'U';
@@ -127,7 +127,7 @@ Vector<double> Upper_symmetric_eigenvalue_solve(const Fortran_Matrix<double> &A)
     Fortran_integer worksize = 3*N;
     Fortran_integer info = 0;
     Vector<double> work(worksize);
-    Fortran_Matrix<double> Tmp = A;
+    Fortran_Array2D<double> Tmp = A;
 
     F77_DSYEV(&jobz, &uplo, &N, &Tmp(1,1), &N, eigvals.begin(), work.begin(),
         &worksize, &info);
@@ -140,7 +140,7 @@ Vector<double> Upper_symmetric_eigenvalue_solve(const Fortran_Matrix<double> &A)
 
 // solve unsymmetric eigenvalue problems 
 //
-int eigenvalue_solve(const Fortran_Matrix<double> &A, 
+int eigenvalue_solve(const Fortran_Array2D<double> &A, 
         Vector<double> &wr, Vector<double> &wi)
 {
     char jobvl = 'N';
@@ -153,14 +153,14 @@ int eigenvalue_solve(const Fortran_Matrix<double> &A,
     
     if (N<1) return 1;
 
-    Fortran_Matrix<double> vl(1,N);  /* should be NxN ? **** */
-    Fortran_Matrix<double> vr(1,N);  
+    Fortran_Array2D<double> vl(1,N);  /* should be NxN ? **** */
+    Fortran_Array2D<double> vr(1,N);  
     Fortran_integer one = 1;
 
     Fortran_integer worksize = 5*N;
     Fortran_integer info = 0;
     Vector<double> work(worksize, 0.0);
-    Fortran_Matrix<double> Tmp = A;
+    Fortran_Array2D<double> Tmp = A;
 
     wr.newsize(N);
     wi.newsize(N);
@@ -181,7 +181,7 @@ int eigenvalue_solve(const Fortran_Matrix<double> &A,
 //
 // returns eigVects in A
 Vector<double> 
-Hermitian_eigenvalue_solve( Fortran_Matrix<std::complex<double> >& A)
+Hermitian_eigenvalue_solve( Fortran_Array2D<std::complex<double> >& A)
 {
 
     char jobz = 'V';

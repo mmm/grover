@@ -1,7 +1,7 @@
 // Matrices.C
 //
 #include <iostream>
-#include <tnt/fmat.h>
+#include <tnt/tnt_fortran_array2d.h>
 
 #include "fwrap.h"
 #include "exceptions.h"
@@ -21,12 +21,12 @@ const double trace( const Matrix<complex<double> >& mat ) {
 
 }
 
-Fortran_Matrix<complex<double> > 
-nan_to_zero( const Fortran_Matrix<complex<double> >& mat ) {
+Fortran_Array2D<complex<double> > 
+nan_to_zero( const Fortran_Array2D<complex<double> >& mat ) {
 
-    Fortran_Matrix<complex<double> > tmp = mat;
-    for(int i=1; i<=mat.num_rows(); i++) {
-        for(int j=1; j<=mat.num_rows(); j++) {
+    Fortran_Array2D<complex<double> > tmp = mat;
+    for(int i=1; i<=mat.dim1(); i++) {
+        for(int j=1; j<=mat.dim1(); j++) {
             tmp(i,j) = complex<double>(
                 ( isnan( mat(i,j).real() ) )? 0.0 : mat(i,j).real(),
                 ( isnan( mat(i,j).imag() ) )? 0.0 : mat(i,j).imag()
@@ -38,12 +38,12 @@ nan_to_zero( const Fortran_Matrix<complex<double> >& mat ) {
 
 }
 
-Fortran_Matrix<complex<double> > 
-dagger( const Fortran_Matrix<complex<double> >& mat ) {
+Fortran_Array2D<complex<double> > 
+dagger( const Fortran_Array2D<complex<double> >& mat ) {
 
-    Fortran_Matrix<complex<double> > tmp = mat;
-    for(int i=1; i<=mat.num_rows(); i++) {
-        for(int j=1; j<=mat.num_rows(); j++) {
+    Fortran_Array2D<complex<double> > tmp = mat;
+    for(int i=1; i<=mat.dim1(); i++) {
+        for(int j=1; j<=mat.dim1(); j++) {
             tmp(j,i) = conj( mat(i,j) );
         }
     }
@@ -66,10 +66,10 @@ dagger( const Matrix<complex<double> >& mat ) {
 
 }
 
-Fortran_Matrix<complex<double> > 
+Fortran_Array2D<complex<double> > 
 toFortranMatrix( const Matrix<complex<double> >& mat ) {
 
-    Fortran_Matrix<complex<double> > tmpMat( mat.num_rows(), 
+    Fortran_Array2D<complex<double> > tmpMat( mat.num_rows(), 
                                              mat.num_rows(), 
                                              0.0 );
     for( int i=1; i<=mat.num_rows(); i++ ) {
@@ -82,11 +82,11 @@ toFortranMatrix( const Matrix<complex<double> >& mat ) {
 }
 
 Matrix<complex<double> > 
-toCMatrix( const Fortran_Matrix<complex<double> >& mat ) {
+toCMatrix( const Fortran_Array2D<complex<double> >& mat ) {
 
-    Matrix<complex<double> > tmpMat( mat.num_rows(), mat.num_rows(), 0.0 );
-    for( int i=1; i<=mat.num_rows(); i++ ) {
-        for( int j=1; j<=mat.num_rows(); j++ ) {
+    Matrix<complex<double> > tmpMat( mat.dim1(), mat.dim1(), 0.0 );
+    for( int i=1; i<=mat.dim1(); i++ ) {
+        for( int j=1; j<=mat.dim1(); j++ ) {
             tmpMat(i,j) = mat(i,j);
         }
     }
@@ -109,16 +109,16 @@ sqrt( const Matrix<complex<double> >& mat ) {
 
     if( mat.num_rows() != mat.num_cols() ) throw("Matrices not square");
 
-    Fortran_Matrix<complex<double> > tmpMat = toFortranMatrix( mat );
+    Fortran_Array2D<complex<double> > tmpMat = toFortranMatrix( mat );
 
     Vector<double> eigVals( mat.num_rows() );
-    Fortran_Matrix<complex<double> > eigVects = nan_to_zero(tmpMat);
+    Fortran_Array2D<complex<double> > eigVects = nan_to_zero(tmpMat);
     eigVals = Hermitian_eigenvalue_solve( eigVects );
 
-    Fortran_Matrix<complex<double> > tmpMat2 = 
+    Fortran_Array2D<complex<double> > tmpMat2 = 
         dagger(eigVects)*tmpMat*eigVects;
     const complex<double> zero(0.0,0.0);
-    Fortran_Matrix<complex<double> > out(mat.num_rows(),
+    Fortran_Array2D<complex<double> > out(mat.num_rows(),
                                          mat.num_rows(),
                                          zero);
     for (int i=1; i<=mat.num_rows(); i++ ) {
@@ -146,10 +146,10 @@ const Vector<double> eigVals( const Matrix<complex<double> >& mat ) {
 
     if( mat.num_rows() != mat.num_cols() ) throw("Matrices not square");
 
-    Fortran_Matrix<complex<double> > tmpMat = toFortranMatrix( mat );
+    Fortran_Array2D<complex<double> > tmpMat = toFortranMatrix( mat );
 
     Vector<double> eigVals( mat.num_rows() );
-    Fortran_Matrix<complex<double> > eigVects = nan_to_zero(tmpMat);
+    Fortran_Array2D<complex<double> > eigVects = nan_to_zero(tmpMat);
     eigVals = Hermitian_eigenvalue_solve( eigVects );
 
     return eigVals;

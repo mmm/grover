@@ -1,6 +1,8 @@
 // Bures.C
 //
 
+#include <iostream>
+
 #include "Matrices.h"
 
 #include "exceptions.h"
@@ -22,8 +24,8 @@ extern double distBures( const Matrix<complex<double> >& mat1,
         ret = sqrt( 2.0 * std::abs(tmp) );
         if ( isnan( ret ) ) throw Fpe("From distBures");
     }
-    catch ( const exception& ex ) {
-        cerr << "Oops in distBures" << endl;
+    catch ( const std::exception& ex ) {
+        std::cerr << "Oops in distBures" << std::endl;
     }
 
     return ret;

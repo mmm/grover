@@ -5,12 +5,12 @@
 
 #include <exception>
 
-class Fpe: public exception {
+class Fpe: public std::exception {
   public:
     Fpe(const char* message): _message(message) {};
 
     // overrides exception::what()
-    const char* what(void) const;
+    //const char* what(void) const;
 
   private:
     const char* _message;

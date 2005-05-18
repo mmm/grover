@@ -6,11 +6,11 @@
 #include <complex>
 
 #include <tnt/tnt.h>
-#include <tnt/cmat.h>
+#include <tnt/tnt_cmat.h>
 
 using namespace TNT;
 
-extern double distBures( const Matrix<complex<double> >& mat1, 
-                         const Matrix<complex<double> >& mat2 );
+extern double distBures( const Matrix<std::complex<double> >& mat1, 
+                         const Matrix<std::complex<double> >& mat2 );
 
 #endif // _BURES_H_

@@ -6,8 +6,8 @@
 #include <complex>
 
 #include <tnt/tnt.h>
-#include <tnt/cmat.h>
-#include <tnt/fmat.h>
+#include <tnt/tnt_cmat.h>
+#include <tnt/tnt_fortran_array2d.h>
 using namespace TNT;
 
 #include <random/uniform.h>

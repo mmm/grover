@@ -5,12 +5,12 @@
 
 #include <complex>
 #include <tnt/tnt.h>
-#include <tnt/vec.h>
-#include <tnt/fmat.h>
+#include <tnt/tnt_vec.h>
+#include <tnt/tnt_fortran_array2d.h>
 
 using namespace TNT;
-//Vector<double> Hermitian_eigenvalue_solve(const Fortran_Matrix<std::complex<double> >& A);
-Vector<double> Hermitian_eigenvalue_solve(Fortran_Matrix<std::complex<double> >& A);
+//Vector<double> Hermitian_eigenvalue_solve(const Fortran_Array2D<std::complex<double> >& A);
+Vector<double> Hermitian_eigenvalue_solve(Fortran_Array2D<std::complex<double> >& A);
 
 double get_eps(void);
 
