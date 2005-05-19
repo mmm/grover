@@ -3,7 +3,8 @@
 #include <iostream>
 #include <tnt/tnt_fortran_array2d.h>
 
-#include "fwrap.h"
+//#include "fwrap.h"
+#include "gslMatrixUtils.h"
 #include "exceptions.h"
 
 #include "Matrices.h"
@@ -107,26 +108,7 @@ const Matrix<complex<double> > makeMatrix( const Vector<double>& eigVals ) {
 const Matrix<complex<double> > 
 sqrt( const Matrix<complex<double> >& mat ) {
 
-    if( mat.num_rows() != mat.num_cols() ) throw("Matrices not square");
-
-    Fortran_Array2D<complex<double> > tmpMat = toFortranMatrix( mat );
-
-    Vector<double> eigVals( mat.num_rows() );
-    Fortran_Array2D<complex<double> > eigVects = nan_to_zero(tmpMat);
-    eigVals = Hermitian_eigenvalue_solve( eigVects );
-
-    Fortran_Array2D<complex<double> > tmpMat2 = 
-        dagger(eigVects)*tmpMat*eigVects;
-    const complex<double> zero(0.0,0.0);
-    Fortran_Array2D<complex<double> > out(mat.num_rows(),
-                                         mat.num_rows(),
-                                         zero);
-    for (int i=1; i<=mat.num_rows(); i++ ) {
-        out(i,i) = sqrt( tmpMat2(i,i) );
-    }
-
-    //return toCMatrix(eigVects*out*dagger(eigVects));
-    return toCMatrix( nan_to_zero(eigVects*out*dagger(eigVects)) );
+    return gslMatrixSqrt( mat );
 
 }
 
@@ -144,15 +126,7 @@ const bool has_a_nan( const Matrix<complex<double> >& mat ) {
 
 const Vector<double> eigVals( const Matrix<complex<double> >& mat ) {
 
-    if( mat.num_rows() != mat.num_cols() ) throw("Matrices not square");
-
-    Fortran_Array2D<complex<double> > tmpMat = toFortranMatrix( mat );
-
-    Vector<double> eigVals( mat.num_rows() );
-    Fortran_Array2D<complex<double> > eigVects = nan_to_zero(tmpMat);
-    eigVals = Hermitian_eigenvalue_solve( eigVects );
-
-    return eigVals;
+    return gslMatrixEigVals( mat );
 
 }
 
