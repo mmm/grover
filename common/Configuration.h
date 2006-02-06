@@ -4,7 +4,6 @@
 #define _CONFIGURATION_H_
 
 #include <string>
-#include <fstream>
 
 class Configuration {
   public:

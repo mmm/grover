@@ -1,6 +1,5 @@
 // display.C
 //
-#include <iostream>
 
 #include <sys/time.h> // all for getrusage and gettimeofday
 #include <sys/resource.h>
@@ -63,7 +62,7 @@ void showProgress( ostream& out, const int step, const int numSteps, const int n
 
 }
 
-extern void printDiffs( ofstream& outFile,
+extern void writeDiffs( ofstream& outFile,
                         const double time,
                         const State *const rho1, 
                         const State *const rho2 ) {
@@ -87,7 +86,7 @@ extern void printDiffs( ofstream& outFile,
 
 }
 
-extern void printLeadingEVals( ofstream& outFile, 
+extern void writeLeadingEVals( ofstream& outFile, 
                                const double time,
                                const State *const rho1, 
                                const State *const rho2 ) {

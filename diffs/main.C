@@ -11,8 +11,14 @@
 
 
 Logger logger;
+Logger getLogger() {
+    return logger;
+}
+
 void log(const std::string& message) {
-    logger << message << std::endl;
+#ifdef TELL_ME
+    getLogger().getStream() << message << std::endl;
+#endif //TELL_ME
 }
 
 int main( int argc, char* argv[] ) {
@@ -24,8 +30,6 @@ int main( int argc, char* argv[] ) {
         exit(1);
     }
 
-
-    //mmm tell me info about the configuration
     log(config.toString());
     
     //mmm create any data loggers
@@ -49,12 +53,10 @@ int main( int argc, char* argv[] ) {
         Uniform<double> uniformGenerator;
         //uniformGenerator.seed( static_cast<unsigned int>( time(0) ) );
 
-#ifdef TELL_ME
 //        rho1->print(t);
 //        rho2->print(t);
-        printDiffs(buresDataStream,t,rho1,rho2);
-        printLeadingEVals(targetDataStream,t,rho1,rho2);
-#endif //TELL_ME
+        writeDiffs(buresDataStream,t,rho1,rho2);
+        writeLeadingEVals(targetDataStream,t,rho1,rho2);
 
         int aHundredth = config.numSteps/100;
         for ( int i = 0; i < config.numSteps; i++ ){
@@ -68,18 +70,18 @@ int main( int argc, char* argv[] ) {
             if ( 0 == i%aHundredth ) {
                 //rho1->print(t);
                 //rho2->print(t);
-                printLeadingEVals(targetDataStream,t,rho1,rho2);
-                printDiffs(buresDataStream,t,rho1,rho2);
+                writeLeadingEVals(targetDataStream,t,rho1,rho2);
+                writeDiffs(buresDataStream,t,rho1,rho2);
             }
 #ifdef TELL_ME
-            showProgress(logger,i,config.numSteps,config.numQubits);
+            showProgress(getLogger().getStream(),i,config.numSteps,config.numQubits);
+#endif //TELL_ME
             if ( i == config.numSteps - 1 ) {
 //                rho1->print(t);
 //                rho2->print(t);
-                printDiffs(buresDataStream,t,rho1,rho2);
-                printLeadingEVals(targetDataStream,t,rho1,rho2);
+                writeDiffs(buresDataStream,t,rho1,rho2);
+                writeLeadingEVals(targetDataStream,t,rho1,rho2);
             }
-#endif //TELL_ME
 
         }
 

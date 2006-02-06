@@ -1,6 +1,7 @@
 // Configuration.C
 
-#include <iostream>
+//#include <iostream>
+#include <sstream>
 #include <unistd.h> // getopt
 #include <cmath> // pow
 
@@ -8,7 +9,8 @@
 
 
 const std::string Configuration::getUsageString( void ) const {
-    std::cout << "Usage: stepper [options]" << std::endl
+    std::stringstream buffer;
+    buffer << "Usage: stepper [options]" << std::endl
          << "Where options are:" << std::endl
          << "-d prob-output-datafile " << std::endl
          << "-n num-steps"  << std::endl
@@ -16,7 +18,7 @@ const std::string Configuration::getUsageString( void ) const {
          << "-q num-qubits"  << std::endl
          << "-s step-size"  << std::endl
          << "-u noise-threshold" << std::endl;
-    return "";
+    return buffer.str();
 }
 
 
@@ -30,6 +32,7 @@ Configuration::Configuration() {
     targetCoefficientsOutputFilename = "output/targetCoeff.out";
     noiseUpperBound = 0.005; // biggest noise can get... kinda
                                // works between 0.001 and 0.01
+    dimension=16;
 }
 
 void Configuration::applyOptions( const int argc, char *const argv[] ) {
@@ -67,20 +70,11 @@ void Configuration::applyOptions( const int argc, char *const argv[] ) {
 }
 
 const std::string& Configuration::decorateFilename(const std::string& baseName)  const {
-    // outputfile stuff
-    std::string returnBuffer(baseName);
-    char filenameExtras[5 + sizeof(int) + 2*sizeof(double)] = ""; //mmm
-    sprintf( filenameExtras, "-%d-n%f-s%f", numQubits, noiseUpperBound, stepSize );
-    return returnBuffer += filenameExtras;
 
-//    buresDistanceOutputFilename += filenameExtras;
-//    targetCoefficientsOutputFilename += filenameExtras;
-//    buresDistanceOutputFileStream = new std::ofstream( buresDistanceOutputFilename.c_str() );
-//    targetCoefficientsOutputFileStream = new std::ofstream( targetCoefficientsOutputFilename.c_str() );
-//    if ( !buresDistanceOutputFileStream || !targetCoefficientsOutputFileStream ) {
-//        std::cerr << "Oops!  An output file stream is bad." << std::endl;
-//        exit(1);
-//    }
+    std::string returnBuffer(baseName);
+    char filenameExtras[5 + sizeof(int) + 2*sizeof(double)] = ""; 
+    sprintf(filenameExtras, "-%d-n%f-s%f", numQubits, noiseUpperBound, stepSize );
+    return returnBuffer += filenameExtras;
 
 }
 
@@ -92,21 +86,21 @@ const std::string& Configuration::getTargetCoefficientsOutputFilename() const {
 }
 
 const bool Configuration::isConfigurationOk() const {
-    return true;
+    return configurationOk;
 }
 
 const std::string Configuration::toString() const {
 
-// tell me about the configuration
-    std::cout << "Bures distance -v- time to " 
-         <<  buresDistanceOutputFilename << std::endl;
-    std::cout << "target state prob -v- time to " 
-         <<  targetCoefficientsOutputFilename << std::endl;
-    std::cout << "numQubits = " << numQubits << std::endl;
-    std::cout << "numSteps = " << numSteps << std::endl;
-    std::cout << "step size = " << stepSize << std::endl;
-    std::cout << "upper bound = " << noiseUpperBound << std::endl;
+    std::stringstream buffer;
+    buffer << "Bures distance -v- time to " 
+           <<  buresDistanceOutputFilename << std::endl;
+    buffer << "target state prob -v- time to " 
+           <<  targetCoefficientsOutputFilename << std::endl;
+    buffer << "numQubits = " << numQubits << std::endl;
+    buffer << "numSteps = " << numSteps << std::endl;
+    buffer << "step size = " << stepSize << std::endl;
+    buffer << "upper bound = " << noiseUpperBound << std::endl;
 
-    return "";
+    return buffer.str();
 
 }

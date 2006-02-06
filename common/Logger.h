@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-class Logger: public std::ostream {
+class Logger {
   public:
     Logger(): stream(std::cout) {};
     std::ostream& getStream();
