@@ -4,6 +4,7 @@
 #define _STATE_H_
 
 #include <complex>
+using std::complex;
 
 #include <tnt/tnt.h>
 #include <tnt/tnt_cmat.h>
