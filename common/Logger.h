@@ -3,10 +3,16 @@
 #ifndef _LOGGER_H_
 #define _LOGGER_H_
 
-class Logger {
+#include <iostream>
+
+class Logger: public std::ostream {
   public:
+    Logger(): stream(std::cout) {};
+    std::ostream& getStream();
 
   private:
+    std::ostream& stream;
+
 };
 
 

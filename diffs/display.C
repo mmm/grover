@@ -14,26 +14,26 @@
 
 using namespace std;
 
-void showProgress( const int step, const int numSteps, const int numQubits ) {
+void showProgress( ostream& out, const int step, const int numSteps, const int numQubits ) {
 
     static timeval startTime;
     if ( 0 == step ) {
         //first time through
         gettimeofday( &startTime, NULL );
-        cout << "Stepper was started at timeofday: " 
+        out << "Stepper was started at timeofday: " 
              << startTime.tv_sec << " seconds, "
              << startTime.tv_usec << " microseconds."
              << endl;
-        cout << "Running " 
+        out << "Running " 
              << numQubits
              << " qubits... |";
-        cout.flush();
+        out.flush();
     }
 
     int aTenth = numSteps/10;
     if ( 0 == step%aTenth ) {
-        cout << "=";
-        cout.flush();
+        out << "=";
+        out.flush();
     }
 
     if ( step && 0 == step%(numSteps-1) ) {
@@ -44,18 +44,18 @@ void showProgress( const int step, const int numSteps, const int numQubits ) {
         }
         timeval endTime;
         gettimeofday( &endTime, NULL );
-        cout << "> Done!" << endl;
-        cout << "Stepper finished at timeofday: " 
+        out << "> Done!" << endl;
+        out << "Stepper finished at timeofday: " 
              << endTime.tv_sec << " seconds, "
              << endTime.tv_usec << " microseconds."
              << endl;
-        cout << " CPU time used: " << usageStuff.ru_utime.tv_sec
+        out << " CPU time used: " << usageStuff.ru_utime.tv_sec
              << " seconds, " << usageStuff.ru_utime.tv_usec
              << " microseconds."
              << endl;
         timeval realTime = { 0 };
         timersub( &endTime, &startTime, &realTime );
-        cout << " Real time used: " 
+        out << " Real time used: " 
              << realTime.tv_sec << " seconds, "
              << realTime.tv_usec << " microseconds."
              << endl;

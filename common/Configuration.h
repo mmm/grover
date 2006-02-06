@@ -10,10 +10,11 @@ class Configuration {
   public:
     Configuration();
     void applyOptions( const int argc, char *const argv[] );
-    const bool areOptionsOk();
+    const bool isConfigurationOk() const;
     const std::string& getBuresDistanceOutputFilename() const;
     const std::string& getTargetCoefficientsOutputFilename() const;
-    const std::string print() const;
+    const std::string toString() const;
+    const std::string getUsageString() const;
 
     //mmm move these
     int numQubits;
@@ -23,9 +24,9 @@ class Configuration {
     int dimension;
 
   private:
+    bool configurationOk;
     std::string buresDistanceOutputFilename;
     std::string targetCoefficientsOutputFilename;
-    void usage();
     const std::string& decorateFilename(const std::string& baseName) const;
 };
 

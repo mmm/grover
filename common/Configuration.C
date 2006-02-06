@@ -7,7 +7,7 @@
 #include "Configuration.h"
 
 
-void Configuration::usage( void ) {
+const std::string Configuration::getUsageString( void ) const {
     std::cout << "Usage: stepper [options]" << std::endl
          << "Where options are:" << std::endl
          << "-d prob-output-datafile " << std::endl
@@ -16,11 +16,13 @@ void Configuration::usage( void ) {
          << "-q num-qubits"  << std::endl
          << "-s step-size"  << std::endl
          << "-u noise-threshold" << std::endl;
+    return "";
 }
 
 
 
 Configuration::Configuration() {
+    configurationOk = true;
     numQubits = 4;
     numSteps = 500; 
     stepSize = 0.0001;
@@ -53,7 +55,7 @@ void Configuration::applyOptions( const int argc, char *const argv[] ) {
             noiseUpperBound = atof(optarg);
             break;
         default:
-            usage();
+            configurationOk = false;
         }
     }
 
@@ -61,15 +63,6 @@ void Configuration::applyOptions( const int argc, char *const argv[] ) {
 
 
 
-// tell me about the configuration
-    std::cout << "Bures distance -v- time to " 
-         <<  buresDistanceOutputFilename << std::endl;
-    std::cout << "target state prob -v- time to " 
-         <<  targetCoefficientsOutputFilename << std::endl;
-    std::cout << "numQubits = " << numQubits << std::endl;
-    std::cout << "numSteps = " << numSteps << std::endl;
-    std::cout << "step size = " << stepSize << std::endl;
-    std::cout << "upper bound = " << noiseUpperBound << std::endl;
 
 }
 
@@ -98,13 +91,22 @@ const std::string& Configuration::getTargetCoefficientsOutputFilename() const {
     return decorateFilename( targetCoefficientsOutputFilename );
 }
 
-const bool Configuration::areOptionsOk() {
+const bool Configuration::isConfigurationOk() const {
     return true;
 }
 
-const std::string Configuration::print() const {
+const std::string Configuration::toString() const {
 
-    //return std::string("");
+// tell me about the configuration
+    std::cout << "Bures distance -v- time to " 
+         <<  buresDistanceOutputFilename << std::endl;
+    std::cout << "target state prob -v- time to " 
+         <<  targetCoefficientsOutputFilename << std::endl;
+    std::cout << "numQubits = " << numQubits << std::endl;
+    std::cout << "numSteps = " << numSteps << std::endl;
+    std::cout << "step size = " << stepSize << std::endl;
+    std::cout << "upper bound = " << noiseUpperBound << std::endl;
+
     return "";
 
 }

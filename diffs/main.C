@@ -2,6 +2,7 @@
 #include <string>
 #include <time.h> // time
 
+#include "Logger.h"
 #include "Configuration.h"
 #include "FileStreamDataLogger.h"
 #include "PureState.h"
@@ -9,19 +10,23 @@
 #include "display.h"
 
 
+Logger logger;
+void log(const std::string& message) {
+    logger << message << std::endl;
+}
 
 int main( int argc, char* argv[] ) {
 
     Configuration config;
     config.applyOptions( argc, argv );
-    if ( ! config.areOptionsOk() ) {
+    if ( ! config.isConfigurationOk() ) {
+        log( config.getUsageString() );
         exit(1);
     }
 
-    //mmm create a logger
 
     //mmm tell me info about the configuration
-    std::cout << config.print() << std::endl;
+    log(config.toString());
     
     //mmm create any data loggers
     FileStreamDataLogger buresOut(config.getBuresDistanceOutputFilename());
@@ -67,15 +72,13 @@ int main( int argc, char* argv[] ) {
                 printDiffs(buresDataStream,t,rho1,rho2);
             }
 #ifdef TELL_ME
-            showProgress(i,config.numSteps,config.numQubits);
+            showProgress(logger,i,config.numSteps,config.numQubits);
             if ( i == config.numSteps - 1 ) {
 //                rho1->print(t);
 //                rho2->print(t);
                 printDiffs(buresDataStream,t,rho1,rho2);
                 printLeadingEVals(targetDataStream,t,rho1,rho2);
             }
-//            char line[80];
-//            cin.getline(line,80);
 #endif //TELL_ME
 
         }
@@ -88,6 +91,5 @@ int main( int argc, char* argv[] ) {
     delete rho1;
     delete rho2;
 
-    //mmm cleanup is done by destructors...
 }
 
