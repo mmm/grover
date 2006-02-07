@@ -5,16 +5,19 @@
 
 #include <exception>
 
-class Fpe: public std::exception {
-  public:
-    Fpe(const char* message): _message(message) {};
+namespace SimTools {
 
-    // overrides exception::what()
-    //const char* what(void) const;
+    class Fpe: public std::exception {
+      public:
+        Fpe(const char* message): _message(message) {};
+    
+        // overrides exception::what()
+        //const char* what(void) const;
+    
+      private:
+        const char* _message;
+    };
 
-  private:
-    const char* _message;
-};
-
+} 
 
 #endif // _EXCEPTIONS_H_

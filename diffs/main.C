@@ -10,11 +10,7 @@
 #include "MixedState.h"
 #include "display.h"
 
-
-void log(const std::string& message) {
-    Logger* logger = Logger::getInstance();
-    logger->log(message);
-}
+using namespace SimTools;
 
 int main( int argc, char* argv[] ) {
 

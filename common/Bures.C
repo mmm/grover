@@ -9,6 +9,8 @@
 
 #include "Bures.h"
 
+using namespace SimTools;
+
 extern double distBures( const State& state1, 
                          const State& state2 ) {
 //extern double distBures( const Matrix<complex<double> >& mat1, 

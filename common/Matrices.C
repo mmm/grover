@@ -9,6 +9,8 @@
 
 #include "Matrices.h"
 
+using namespace SimTools;
+
 const double trace( const Matrix<complex<double> >& mat ) {
 
     if( mat.num_rows() != mat.num_cols() ) throw("Matrices not square");

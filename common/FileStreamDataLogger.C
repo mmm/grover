@@ -2,15 +2,19 @@
 
 #include "FileStreamDataLogger.h"
 
-FileStreamDataLogger::FileStreamDataLogger(const std::string& fileName):
-    dataStream(new std::ofstream(fileName.c_str())) 
-{
-}
+namespace SimTools {
 
-FileStreamDataLogger::~FileStreamDataLogger() {
-    dataStream->close();
-}
+    FileStreamDataLogger::FileStreamDataLogger(const std::string& fileName):
+        dataStream(new std::ofstream(fileName.c_str())) 
+    {
+    }
 
-std::ofstream& FileStreamDataLogger::getDataStream() const {
-    return *dataStream;
+    FileStreamDataLogger::~FileStreamDataLogger() {
+        dataStream->close();
+    }
+
+    std::ofstream& FileStreamDataLogger::getDataStream() const {
+        return *dataStream;
+    }
+
 }

@@ -8,6 +8,8 @@
 #include "exceptions.h"
 
 #include "MixedState.h"
+
+using namespace SimTools;
    
 MixedState::~MixedState() {
     for ( int i = 0; i< _dimension; i++ ) {

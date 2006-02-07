@@ -6,15 +6,18 @@
 #include <string>
 #include <fstream>
 
-class FileStreamDataLogger {
-  public:
-    FileStreamDataLogger(const std::string& fileName);
-    virtual ~FileStreamDataLogger();
-    std::ofstream& getDataStream() const;
+namespace SimTools {
 
-  private:
-    std::ofstream* dataStream;
-};
+    class FileStreamDataLogger {
+      public:
+        FileStreamDataLogger(const std::string& fileName);
+        virtual ~FileStreamDataLogger();
+        std::ofstream& getDataStream() const;
+    
+      private:
+        std::ofstream* dataStream;
+    };
 
+} 
 
 #endif // _FILESTREAMDATALOGGER_H_

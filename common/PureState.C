@@ -8,6 +8,7 @@
 
 #include "PureState.h"
 
+using namespace SimTools;
 using namespace std;
    
 void PureState::init(void) { 
