@@ -9,18 +9,17 @@ enum LogLevel { ERROR, INFO, DEBUG };
 
 class Logger {
   public:
-    static Logger* getInstance() {
-        if ( ! theLogger ) {
-            theLogger = new Logger();
-        }
-        return theLogger;
-    }
+    static Logger* getInstance();
+    std::ostream& getStream();
+    void log(const LogLevel level, const std::string& message);
+    void log(const std::string& message);
 
   protected:
-    Logger() {};
+    Logger(): stream(std::cout) {};
 
   private:
     static Logger* theLogger;
+    std::ostream& stream;
 
 };
 

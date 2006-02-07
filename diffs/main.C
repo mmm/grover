@@ -13,8 +13,7 @@
 
 void log(const std::string& message) {
     Logger* logger = Logger::getInstance();
-    //logger->log(message);
-    std::cout << message << std::endl;
+    logger->log(message);
 }
 
 int main( int argc, char* argv[] ) {
@@ -69,8 +68,7 @@ int main( int argc, char* argv[] ) {
                 writeLeadingEVals(targetDataStream,t,rho1,rho2);
                 writeDiffs(buresDataStream,t,rho1,rho2);
             }
-            //showProgress(Logger::getInstance()->getStream(),i,config.numSteps,config.numQubits);
-            showProgress(std::cout,i,config.numSteps,config.numQubits);
+            showProgress(Logger::getInstance()->getStream(),i,config.numSteps,config.numQubits);
             if ( i == config.numSteps - 1 ) {
 //                rho1->print(t);
 //                rho2->print(t);
