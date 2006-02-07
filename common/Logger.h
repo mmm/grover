@@ -3,15 +3,24 @@
 #ifndef _LOGGER_H_
 #define _LOGGER_H_
 
-#include <iostream>
+#include <string>
+
+enum LogLevel { ERROR, INFO, DEBUG };
 
 class Logger {
   public:
-    Logger(): stream(std::cout) {};
-    std::ostream& getStream();
+    static Logger* getInstance() {
+        if ( ! theLogger ) {
+            theLogger = new Logger();
+        }
+        return theLogger;
+    }
+
+  protected:
+    Logger() {};
 
   private:
-    std::ostream& stream;
+    static Logger* theLogger;
 
 };
 

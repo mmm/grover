@@ -110,18 +110,21 @@ void PureState::print( const double t ) const {
 
     Matrix<complex<double> > rho = matrix();
 
-    cout << "Pure state density matrix is : " << rho << endl;
+    //mmm use logger
+    //cout << "Pure state density matrix is : " << rho << endl;
 
     complex<double> trace = 0.0;
     for (int i=1; i<_dimension+1; i++) {
         trace += rho(i,i);
     }
-    cout << "with trace : " << abs(trace) << endl;
+    //mmm use logger
+    //cout << "with trace : " << abs(trace) << endl;
 
 }
 
 void PureState::perturb( Uniform<double>& generator, const double upperBound ) {
 
+    //mmm use logger
 //    cout << "PureState random number = " 
 //         << ( generator.random() - 0.5 ) * upperBound 
 //         << endl;

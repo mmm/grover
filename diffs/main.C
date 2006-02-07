@@ -1,4 +1,5 @@
 //
+#include <iostream>
 #include <string>
 #include <time.h> // time
 
@@ -10,15 +11,10 @@
 #include "display.h"
 
 
-Logger logger;
-Logger getLogger() {
-    return logger;
-}
-
 void log(const std::string& message) {
-#ifdef TELL_ME
-    getLogger().getStream() << message << std::endl;
-#endif //TELL_ME
+    Logger* logger = Logger::getInstance();
+    //logger->log(message);
+    std::cout << message << std::endl;
 }
 
 int main( int argc, char* argv[] ) {
@@ -73,9 +69,8 @@ int main( int argc, char* argv[] ) {
                 writeLeadingEVals(targetDataStream,t,rho1,rho2);
                 writeDiffs(buresDataStream,t,rho1,rho2);
             }
-#ifdef TELL_ME
-            showProgress(getLogger().getStream(),i,config.numSteps,config.numQubits);
-#endif //TELL_ME
+            //showProgress(Logger::getInstance()->getStream(),i,config.numSteps,config.numQubits);
+            showProgress(std::cout,i,config.numSteps,config.numQubits);
             if ( i == config.numSteps - 1 ) {
 //                rho1->print(t);
 //                rho2->print(t);

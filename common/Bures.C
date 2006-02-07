@@ -1,7 +1,6 @@
 // Bures.C
 //
 
-#include <iostream>
 
 #include "Matrices.h"
 #include "State.h"
@@ -15,6 +14,7 @@ extern double distBures( const State& state1,
 //extern double distBures( const Matrix<complex<double> >& mat1, 
 //                         const Matrix<complex<double> >& mat2 ) {
 
+    //mmm use logger
     //cout << "Bures distance called.. between " << mat1 << endl;
     //cout << "and " << mat2 << endl;
 

@@ -60,15 +60,17 @@ void PureState::print( const double t ) const {
         // normalize
         states /= sqrt( states*states );
 #ifdef TELL_ME
-        cout << "t= " << t << endl;
-        for(int i = 0; i< n+1; i++ ) {
-            cout << "states[" << i << "] = " << states[i] << endl;
-        }
-        cout << "states*states = " << states*states << endl;
+        //mmm use logger
+//        //cout << "t= " << t << endl;
+//        for(int i = 0; i< n+1; i++ ) {
+//            cout << "states[" << i << "] = " << states[i] << endl;
+//        }
+//        //cout << "states*states = " << states*states << endl;
 #endif //TELL_ME
 
     }
     catch(out_of_range) {
+        //mmm use logger
         cerr << "oops" << endl;
         exit(1);
     }
@@ -133,13 +135,15 @@ void MixedState::print( const double t ) const {
 
     }
 
-    cout << "Density matrix is : " << rho << endl;
+    //mmm use logger
+    //cout << "Density matrix is : " << rho << endl;
 
     double trace = 0.0;
     for (int i=1; i<_dimension+1; i++) {
         trace += rho(i,i);
     }
-    cout << "with trace : " << trace << endl;
+    //mmm use logger
+    //cout << "with trace : " << trace << endl;
 
 //    Matrix<double> A(3, 3,
 //                             " 8.1 1.2 4.3 "

@@ -126,16 +126,20 @@ void MixedState::print( const double t ) const {
 
     Matrix<complex<double> > rho = matrix();
 
-    cout << "Density matrix is : " << rho << endl;
+    //mmm use logger
+    //cout << "Density matrix is : " << rho << endl;
 
 //    complex<double> trace = 0.0;
 //    for (int i=1; i<_dimension+1; i++) {
 //        trace += rho(i,i);
 //    }
+    //mmm use logger
 //    cout << "with trace : " << abs(trace) << endl;
 //
 //    for (int i=0; i< _dimension; i++ ) {
+    //mmm use logger
 //        cout << "Pure state component i = " << i << endl;
+    //mmm use logger
 //        cout << "lambda i = " << _lambda[i] << endl;
 //        _pureStates[i]->print(t);
 //    }
