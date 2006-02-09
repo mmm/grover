@@ -9,9 +9,6 @@
 #include <sys/resource.h>
 #include <unistd.h>
 
-#include "myvalarray.h"
-
-
 #include "cf.h"
 
 void compareWithSoln( const double x, const valarray<double>& y ) {

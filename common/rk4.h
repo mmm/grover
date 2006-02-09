@@ -3,6 +3,7 @@
 #ifndef _RK4_H_
 #define _RK4_H_
 
+#include <valarray>
 
 using namespace std;
 

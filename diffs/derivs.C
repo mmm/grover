@@ -7,7 +7,7 @@
 
 #include "derivs.h"
 
-using namespace std;
+using std::valarray;
 
 // return dy/dx for each particular equation
 valarray<double> dydx( const double x, const valarray<double>& y ) {
@@ -107,8 +107,8 @@ valarray<double> dydx( const double x, const valarray<double>& y ) {
         }
 
     }
-    catch(out_of_range) {
-        cerr << "oops" << endl;
+    catch(std::out_of_range) {
+        std::cerr << "oops" << std::endl;
         exit(1);
     }
 

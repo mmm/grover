@@ -3,7 +3,9 @@
 #ifndef _CF_H_
 #define _CF_H_
 
-#include "myvalarray.h"
+#include <valarray>
+
+using namespace std;
 
 extern void compareWithSoln( const double x, const std::valarray<double>& y );
 extern void printVals( const double x, const std::valarray<double>& y );

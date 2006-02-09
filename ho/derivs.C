@@ -4,7 +4,6 @@
 #include <iostream>
 
 #include <stdexcept>
-#include "myvalarray.h"
 
 #include "derivs.h"
 
