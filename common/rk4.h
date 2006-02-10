@@ -4,8 +4,7 @@
 #define _RK4_H_
 
 #include <valarray>
-
-using namespace std;
+using std::valarray;
 
 extern valarray<double> 
 stepRk4( const double x, const valarray<double>& y, const double stepSize );

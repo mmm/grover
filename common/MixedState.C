@@ -1,4 +1,4 @@
-// State.C
+// MixedState.C
 #include <stdexcept>
 #include <valarray>
 #include <numeric> // inner_product
@@ -49,7 +49,7 @@ void MixedState::init( void ) {
 
     }
     catch(...) {
-        cerr << "oops in Mixed::init" << endl;
+        std::cerr << "oops in Mixed::init" << std::endl;
         throw("MS:init???");
     }
 }
@@ -83,7 +83,7 @@ Matrix<complex<double> > MixedState::matrix( void ) const {
         //            static_cast<valarray<complex<double> > >(states.apply(conj))
         //          ));
         valarray<complex<double> > statesbar = states;
-        statesbar.apply(conj);
+        statesbar.apply(std::conj);
         double norm = std::sqrt(std::abs( inner_product( &states[0], 
                                                          &states[states.size()], 
                                                          &statesbar[0], 

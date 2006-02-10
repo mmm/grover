@@ -1,4 +1,4 @@
-/// State.C
+/// PureState.C
 #include <stdexcept>
 #include <valarray>
 #include <numeric> // inner_product
@@ -9,7 +9,7 @@
 #include "PureState.h"
 
 using namespace SimTools;
-using namespace std;
+using std::valarray;
    
 void PureState::init(void) { 
 
@@ -30,8 +30,8 @@ void PureState::init(void) {
             _data[3*n+i] = wbar[i];
         }
     }
-    catch(out_of_range) {
-        cerr << "oops" << endl;
+    catch(std::out_of_range) {
+        std::cerr << "oops" << std::endl;
         exit(1);
     }
 
@@ -54,8 +54,8 @@ void PureState::init( const valarray<double>& z_i,
             _data[3*n+i] = wbar_i[i];
         }
     }
-    catch(out_of_range) {
-        cerr << "oops" << endl;
+    catch(std::out_of_range) {
+        std::cerr << "oops" << std::endl;
         exit(1);
     }
 
@@ -84,7 +84,7 @@ Matrix<complex<double> > PureState::matrix( void ) const {
         //            static_cast<valarray<complex<double> > >(states.apply(conj))
         //          ));
         valarray<complex<double> > statesbar = states;
-        statesbar.apply(conj);
+        statesbar.apply(std::conj);
         double norm = std::sqrt(std::abs( inner_product( &states[0], 
                                                          &states[states.size()], 
                                                          &statesbar[0], 
@@ -98,8 +98,8 @@ Matrix<complex<double> > PureState::matrix( void ) const {
             }
         }
     }
-    catch(out_of_range) {
-        cerr << "oops" << endl;
+    catch(std::out_of_range) {
+        std::cerr << "oops" << std::endl;
         exit(1);
     }
 
@@ -112,14 +112,14 @@ void PureState::print( const double t ) const {
     Matrix<complex<double> > rho = matrix();
 
     //mmm use logger
-    //cout << "Pure state density matrix is : " << rho << endl;
+    //cout << "Pure state density matrix is : " << rho << std::endl;
 
     complex<double> trace = 0.0;
     for (int i=1; i<_dimension+1; i++) {
         trace += rho(i,i);
     }
     //mmm use logger
-    //cout << "with trace : " << abs(trace) << endl;
+    //cout << "with trace : " << abs(trace) << std::endl;
 
 }
 
@@ -128,7 +128,7 @@ void PureState::perturb( Uniform<double>& generator, const double upperBound ) {
     //mmm use logger
 //    cout << "PureState random number = " 
 //         << ( generator.random() - 0.5 ) * upperBound 
-//         << endl;
+//         << std::endl;
 
     if ( _data.size() % 4 ) throw;
     const int n = _data.size() / 4;
@@ -141,8 +141,8 @@ void PureState::perturb( Uniform<double>& generator, const double upperBound ) {
             _data[i] += ( generator.random() - 0.5 ) * upperBound;
         }
     }
-    catch(out_of_range) {
-        cerr << "oops" << endl;
+    catch(std::out_of_range) {
+        std::cerr << "oops" << std::endl;
         throw;
     }
 

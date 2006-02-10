@@ -1,12 +1,8 @@
 #define _POSIX_SOURCE 1
 // want to integrate ODEs
-//
+
 #include <iostream>
-//#include "myvalarray.h"
-//#include "euler.h"
 #include "rk4.h"
-//#include "adaptRk4.h"
-//#include "lsodeStepper.h"
 
 #include "derivs.h"
 #include "init.h"
@@ -43,10 +39,10 @@ int main() {
         x += stepSize;
 
 #ifdef TELL_ME
-//        // we can solve this one, so...
-//        if ( 0 == i%(numSteps/10) ) { 
-//            compareWithSoln( x, y );
-//        }
+        // we can solve this one, so...
+        if ( 0 == i%(numSteps/10) ) { 
+            compareWithSoln( x, y );
+        }
 //        printVals( x, y );
         
 //        char line[80];
