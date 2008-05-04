@@ -20,7 +20,8 @@ FFLAGS =
 #LIBS = -lpthread
 #LIBS = -lblitz -lm
 #LIBS = -lodepack -llapack -lblas
-LIBS = -llapack -lblas -lg2c -lm
+#LIBS = -llapack -lblas -lg2c -lm
+LIBS = 
 LFLAGS = 
 
 

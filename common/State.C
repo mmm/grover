@@ -3,8 +3,8 @@
 #include "rk4.h"
 
 #include <tnt/tnt.h>
-#include <tnt/cmat.h>
-#include <tnt/fmat.h>
+#include <tnt/tnt_cmat.h>
+#include <tnt/tnt_fortran_array2d.h>
 
 //#include <tnt/fortran.h>
 //#include <tnt/lapack.h>
