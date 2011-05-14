@@ -4,6 +4,8 @@
 #include <sstream>
 #include <unistd.h> // getopt
 #include <cmath> // pow
+#include <cstdlib> // atoi
+#include <stdio.h> // sprintf
 
 #include "Configuration.h"
 
