@@ -1,37 +1,46 @@
 
+# General
+
+Active files are in `diffs` and `common` directories... the rest are just various tests of the framework.
+
+    TODO: make it clear from the code what's real and what're tests
+
 # Building
 
-You need `gcc` and `g++`... the rest is packages like `lapack` and `build-essentials`.
+You need `gnu make` and `g++`.  There are required packages like `lapack` and `build-essentials`, as well as frozen libraries (mostly template libs) in the code... `blitz++` and `TNT`.
 
 Just run `make` from the toplevel.
 
-TODO:
-
-- add external dependencies
-- put in autoconf stuff eventually
+    TODO:
+    - dependencies
+    - autoconf stuff?
 
 
 # Using
 
-To run the grover stepper, 
+To run the grover stepper, start in the main `diffs` directory,
 
-    cd grover/diffs
+    cd diffs
+
+adjust parameters for the runs you want to make
+
     vi runner.pl
+
+and run
+
     ./runner.pl
 
-Data's just dumped out to files in `grover/diffs/output'
+Data's just dumped out to files in `diffs/output` for basic analysis and gnuplots.
 
 
-## Parameters
-
-TODO: more docs on parameters
+## Run-Parameters
 
 easiest is just to 
 
-    cd grover/diffs
+    cd diffs
     ./stepper -?
 
-and it should tell you more
+and you get
 
     DEBUG: Usage: stepper [options]
     Where options are:
