@@ -31,5 +31,14 @@ easiest is just to
     cd grover/diffs
     ./stepper -?
 
-and it should tell you more.
+and it should tell you more
+
+    DEBUG: Usage: stepper [options]
+    Where options are:
+    -d prob-output-datafile 
+    -n num-steps
+    -o bures-distances-output-datafile
+    -q num-qubits
+    -s step-size
+    -u noise-threshold
 
