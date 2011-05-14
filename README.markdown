@@ -51,3 +51,11 @@ and you get
     -s step-size
     -u noise-threshold
 
+# Help
+
+If you'd like to use this, let me know... it's quite old, but I'm happy to help get it working.
+
+New work can still be done finding how much noise the algorithms can take in the presence of noise.
+
+Most notably, how would ECCs change everything here?  These simulations are just of the bare
+algorithms with noise.
